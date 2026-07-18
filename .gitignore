@@ -1,0 +1,29 @@
+node_modules/
+dist/
+*.tsbuildinfo
+
+# Local configuration and credentials
+.env
+.env.*
+!.env.example
+cml.config.json
+mcp.*.json
+
+# Local state and generated output
+coverage/
+var/
+/vault/
+.claude/
+*.log
+*.sqlite
+*.sqlite-*
+*.db
+*.db-*
+
+# OS/editor metadata
+.DS_Store
+*.swp
+*.swo
+
+# Private deployment notes and local runbooks
+docs/internal/

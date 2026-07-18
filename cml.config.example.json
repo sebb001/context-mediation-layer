@@ -1,0 +1,49 @@
+{
+  "database": {
+    "path": "./var/cml.sqlite"
+  },
+  "defaultScope": "default",
+  "actor": {
+    "name": "local-operator",
+    "role": "human",
+    "provider": "human",
+    "capabilityNamespace": "local",
+    "defaultScope": "default"
+  },
+  "vault": {
+    "root": "./vault"
+  },
+  "mcp": {
+    "http": {
+      "host": "127.0.0.1",
+      "port": 8787
+    },
+    "publicBridge": {
+      "host": "127.0.0.1",
+      "port": 8788,
+      "baseUrl": "https://mcp.example",
+      "upstreamUrl": "http://127.0.0.1:8787/mcp",
+      "allowedTools": ["resolve", "context", "status"],
+      "oauth": {
+        "resource": "https://mcp.example/mcp",
+        "audience": "https://mcp.example/mcp",
+        "scopes": ["cml:read"],
+        "subjectActorMap": {
+          "provider-subject": "pilot-user"
+        },
+        "groupActorMap": {
+          "pilot-builders": "pilot-agent"
+        },
+        "defaultActor": "local-operator",
+        "pilotIssuer": {
+          "enabled": true,
+          "privateKeyPath": "./var/oauth/private-key.pem",
+          "keyId": "replace-with-generated-key-id",
+          "clientStorePath": "./var/oauth/clients.json",
+          "subject": "pilot-user",
+          "groups": ["pilot-builders"]
+        }
+      }
+    }
+  }
+}

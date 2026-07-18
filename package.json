@@ -1,0 +1,32 @@
+{
+  "name": "context-mediation-layer",
+  "version": "0.0.1",
+  "description": "Pilot coordination layer for mediated human-AI work",
+  "type": "module",
+  "private": true,
+  "bin": {
+    "cml": "./dist/cli/index.js",
+    "cml-mcp": "./dist/mcp/index.js",
+    "cml-mcp-http": "./dist/mcp/http.js",
+    "cml-mcp-public": "./dist/mcp/public-bridge.js",
+    "cml-ui": "./dist/ui/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run tests",
+    "test:watch": "vitest tests",
+    "test:contracts": "vitest run tests/contracts",
+    "oauth:bootstrap": "node scripts/bootstrap-oauth.mjs",
+    "smoke:local": "node scripts/local-smoke.mjs",
+    "lint": "tsc --noEmit"
+  },
+  "engines": {
+    "node": ">=22.5"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.21",
+    "typescript": "^5.7.0",
+    "vitest": "^3.1.0"
+  },
+  "license": "MIT"
+}

@@ -1,0 +1,340 @@
+# Context Mediation Layer
+
+Decision governance and coordination infrastructure for human-AI workflows.
+
+## At a glance
+
+This repository is a working prototype and architecture demonstrator of a
+Context Mediation Layer (CML) for governing human-AI workflows. It makes
+intent, interpretation, authority, evidence, action, and provenance explicit
+so that AI-enabled work can be coordinated, audited, replayed, and scaled
+across multiple actors and tools.
+
+The core idea is simple: isolated AI workflows should not remain disconnected
+experiments. They need a shared governance layer that turns acceleration into
+durable coordination capability rather than faster ambiguity.
+
+The implementation demonstrates how that layer can work locally, across
+humans, coding agents, hosted chat agents, tools, and knowledge stores,
+without relying on one vendor memory surface or one monolithic agent
+framework.
+
+## Enterprise problem
+
+AI reduces the cost of action. It does not reduce the cost of consequences.
+
+In multi-actor AI environments, failure often begins before memory or
+retrieval breaks down. It begins when different humans, agents, tools, and
+sessions each remain locally coherent while the wider environment loses
+shared intent, authority, evidence, ownership, decision history, and
+accountability.
+
+A recalled context fragment may be useful, stale, unsupported, or
+authoritative. A generated report may be plausible but untraceable. A tool
+action may be effective but unclear in mandate. A follow-on agent may inherit
+output without knowing what can safely be assumed.
+
+The deeper failure mode is not divergence but false convergence: hallucinated
+consensus. A generated artefact — a report, a plan, a polished deck — can
+carry the format of an agreed position without any deliberation having
+produced it. Production quality substitutes for the process that authority
+normally certifies. Readers downstream treat the artefact as settled because
+it looks settled, and decisions accumulate on state that no one actually
+agreed to.
+
+Once an AI-enabled workflow can mutate a repository, write into a knowledge
+store, generate a report, call a tool, hand work to another model, or
+influence a business decision, the relevant governance questions become:
+
+- Who is acting?
+- Under what mandate?
+- What did they understand the task to mean?
+- Which evidence did they rely on?
+- What changed?
+- What remains unresolved?
+- What can the next actor safely assume?
+
+Prompt discipline and retrieval are not enough to answer these questions.
+Retrieval can surface relevant material, but it does not decide which source
+is authoritative, which claim is stale, which output is inference, or which
+actor is accountable for a change.
+
+CML treats this as a coordination problem.
+
+## What the layer does
+
+The layer gives humans and agents a shared coordination substrate. It records
+what is being attempted, how different actors interpret the work, which
+evidence is being used, what actions were taken, under which mandate, and
+what remains unresolved.
+
+Divergence is first-class state, not an error condition. Incompatible
+interpretations are recorded side by side with their provenance, and
+corrections supersede rather than overwrite — so the record shows not only
+what was decided, but what was believed before, by whom, and why it changed.
+
+It is deliberately not a personality layer, memory feature, or agent
+framework in the usual sense. It sits underneath those surfaces when several
+of them need to work together.
+
+CML is the coordination vocabulary. This repository is a runtime that makes
+the vocabulary operational.
+
+The core primitives are:
+
+- **Intent:** what is being attempted.
+- **Interpretation:** what an actor believes the intent means from its
+  position.
+- **Action:** what was done.
+- **Report:** a synthesis, handoff, or governed summary.
+- **Claim:** an assertion that may need evidence, review, or release.
+- **Contract:** the rule, role, or mandate under which participation happens.
+- **Actor:** who or what is accountable for a contribution.
+- **Session:** the execution context that produced a trace.
+- **Event:** the transition trail.
+
+The governing invariant is:
+
+> Stable actors own accountability. Sessions are execution context. Only
+> promoted outputs become durable coordination state.
+
+A chat transcript can be evidence. A terminal session can produce good work.
+A model can draft an interpretation. But none of those surfaces becomes
+canonical merely by existing. Material becomes durable CML state only when it
+is promoted into the governance store with attribution, provenance, and a
+relevant mandate.
+
+The promotion gate exists because generation is cheap and format is
+persuasive: the system deliberately refuses to let production quality confer
+authority that only mandate and review can grant.
+
+## Architecture at a glance
+
+The implementation keeps three layers separate:
+
+1. **Governance layer**
+   Owns CML state: intents, interpretations, actions, reports, claims,
+   contracts, actors, roles, sessions, and events.
+
+2. **Runtime layer**
+   Provides execution capability behind interfaces. It may host CLIs, SDKs,
+   MCP adapters, tools, agents, and operator surfaces, but it does not own
+   CML semantics.
+
+3. **Knowledge layer**
+   Supplies context, source material, and local content. It can inform
+   coordination state, but it does not become canonical merely because it is
+   useful.
+
+```text
+Human operator
+  -> operator UI / CLI
+  -> CML application service
+  -> CML governance store
+
+Coding and domain agents
+  -> CLI / SDK
+  -> CML application service
+  -> CML governance store
+
+Hosted chat and model clients
+  -> MCP adapters
+  -> CML application service
+  -> CML governance store
+
+CML governance store
+  <-> governed local knowledge store
+```
+
+Runtime executes. Knowledge informs. Governance decides what becomes shared
+coordination state.
+
+## Governance model
+
+CML treats contracts as first-order governance state. A contract can define
+role permissions, actor defaults, participation rules, escalation rules,
+write permissions, or process obligations. Contract truth lives in the
+registry, not in copied Markdown files or local projections.
+
+Before acting, an actor should establish four things:
+
+1. **Identity:** who or what is operating.
+2. **Mandate:** which intent, role, actor type, or contract governs
+   participation.
+3. **Live coordination state:** which relevant intents, interpretations,
+   actions, claims, reports, contracts, actors, roles, or domains are in
+   play.
+4. **Next governed move:** which reversible action, handoff, escalation, or
+   unresolved state should happen next.
+
+For substantive mediation, actors separate:
+
+- **Observed:** what was directly found in governed state or cited evidence.
+- **Inferred:** what follows from the observed state.
+- **Unresolved:** what remains uncertain, contradictory, stale, or
+  unauthorised.
+- **Proposed:** the next reversible move recommended or taken.
+
+This prevents capable agents from flattening authority, evidence, inference,
+and uncertainty into the same confident output.
+
+## Actor topology
+
+CML types authority explicitly. Actors, roles, bindings, sessions, and
+contracts are kept distinct because each answers a different governance
+question — and because most coordination failures begin when these are
+silently conflated.
+
+| Concept | Question it answers |
+|---|---|
+| Actor | Who is accountable for this contribution? |
+| Role | What posture or mandate can be assumed? |
+| Binding | On which surface and provider may this actor assume that role? |
+| Session | Which execution context produced this trace? |
+| Contract | Which active rule or mandate governs the behaviour? |
+
+This distinction matters when models and tools cross surfaces. A high-trust
+actor using a hosted chat surface is not the same as every model that can
+imitate its style. A role is not an identity. A session is not an actor. A
+file called `CONTRACT.md` is not necessarily an active contract.
+
+These boundaries allow plural agents to contribute without pretending that
+every participant has the same authority, memory, mandate, or scope.
+
+## Example workflow
+
+A human creates an intent: assess whether a proposed governance change should
+be implemented.
+
+A research-oriented actor files an interpretation describing what the change
+appears to mean, which assumptions it depends on, and what evidence is
+relevant.
+
+A coding actor inspects the implementation surface and records a separate
+interpretation describing which components would change, where authority
+boundaries could be weakened, and whether the change is technically feasible.
+
+A policy or mediation actor reviews the same intent from the contract layer:
+whether the change alters actor permissions, mandate requirements,
+knowledge-store write rules, or durable trace semantics.
+
+The human reviews the resulting state in the operator UI or CLI. The decision
+is no longer buried across several transcripts. It has a shared shape:
+intent, interpretations, evidence, unresolved questions, proposed actions,
+and eventually logged implementation work.
+
+If implementation proceeds, actions are filed against the original intent. If
+the local knowledge store is changed, the mutation requires an explicit
+mandate and is logged back into the coordination store.
+
+The useful artefact is not only the final code change or note edit. It is the
+durable coordination record left behind for the next actor.
+
+## Current implementation snapshot
+
+This repository is a working prototype and architecture demonstrator, not a
+production platform.
+
+The current implementation includes:
+
+- TypeScript governance service with SQLite/WAL persistence.
+- CLI control plane for actors, roles, sessions, intents, interpretations,
+  actions, reports, claims, contracts, events, and knowledge-store
+  operations.
+- SDK/API layer over the same service model.
+- MCP stdio/HTTP adapters and a restricted public bridge.
+- Browser-based operator UI for live CML inspection and governed writes.
+- Governed local knowledge-store read/write bridge, with mutations requiring
+  an intent mandate and logging a CML action.
+- First-order contract registry with active hierarchy, immutable revisions,
+  custodian attribution, content hashes, parent keys, mandate references, and
+  supersession.
+
+Verification for the source snapshot:
+
+```sh
+npm test
+# 20 test files passed
+# 223 tests passed
+
+npm run build
+# TypeScript build passed
+```
+
+The test count is implementation evidence for this snapshot, not a permanent
+API guarantee.
+
+## What this demonstrates
+
+The implementation demonstrates a broader design pattern for AI-enabled
+organisations:
+
+- Treat intent as durable state.
+- Treat interpretation as actor-coupled, not universal truth.
+- Treat authority, evidence, inference, and unresolved state as distinct.
+- Treat contracts as first-order governance state.
+- Treat sessions as provenance, not identity.
+- Treat knowledge stores and transcripts as evidence until promoted.
+- Treat transport surfaces as adapters over a shared substrate.
+
+This pattern allows different agents, tools, and human operators to remain
+distinct while still acting against a shared governed record. It makes
+AI-enabled work more auditable, more replayable, and less dependent on an
+invisible human operator acting as the integration layer.
+
+The near-term goal is to make a working architecture legible: a local-first
+coordination layer where humans and agents can act together under explicit
+authority, shared evidence, and durable provenance.
+
+## Quick start
+
+```sh
+npm ci
+npm run build
+node dist/cli/index.js init --pretty
+node dist/cli/index.js status --pretty
+npm test
+```
+
+`init` writes `cml.config.json`, creates a local SQLite database under
+`./var`, creates a local `./vault` directory, and provisions a default
+operator, scope, root contract, default agent actor-type contract, and CLI
+role binding.
+
+## Configuration
+
+Copy `.env.example` for environment overrides, or start from
+`cml.config.example.json`.
+
+Precedence is:
+
+1. CLI flags
+2. Environment variables
+3. `cml.config.json`
+
+Generate transparent MCP client/server snippets with:
+
+```sh
+node dist/cli/index.js setup mcp --transport stdio --out ./mcp.stdio.json
+node dist/cli/index.js setup mcp --transport http --out ./mcp.http.json
+node dist/cli/index.js setup mcp --transport public --out ./mcp.public.json
+```
+
+## Documentation
+
+- [Concepts and limitations](docs/concepts-and-limitations.md)
+- [Setup and configuration](docs/setup-and-configuration.md)
+- [Components](docs/components.md)
+- [Security](SECURITY.md)
+
+## License
+
+The source code in this repository is licensed under the MIT License. The
+root [LICENSE](LICENSE) scopes that grant to code files, tests, scripts,
+schemas, and configuration examples needed to build or run the software.
+
+Narrative documentation, evidence material, proposal text, client records,
+lab notes, and other non-code materials are not MIT-licensed unless a file
+explicitly says otherwise.
+
+Third-party development dependencies remain under their own licences.
