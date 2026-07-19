@@ -286,6 +286,10 @@ The near-term goal is to make a working architecture legible: a local-first
 coordination layer where humans and agents can act together under explicit
 authority, shared evidence, and durable provenance.
 
+Operational evidence from the lab where this layer was built and first used
+— six governed cases with raw records — is published separately:
+[cml-evidence-pack](https://github.com/sebb001/cml-evidence-pack).
+
 ## Quick start
 
 ```sh
