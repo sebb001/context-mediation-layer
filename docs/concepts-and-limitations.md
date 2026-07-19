@@ -150,7 +150,12 @@ systems.
 
 ## Evidence status
 
-The evidence pack is operational self-evidence from the author's own lab. It
+The evidence pack is published as
+[cml-evidence-pack](https://github.com/sebb001/cml-evidence-pack): six
+governance cases with their coordination records, from the lab where this
+layer was built.
+
+It is operational self-evidence from the author's own lab. It
 is useful because it shows the grammar carrying weight in one live environment
 under pressure. It is not third-party validation: the same person was
 theorist, operator, and primary evaluator, and the evidence is n=1.

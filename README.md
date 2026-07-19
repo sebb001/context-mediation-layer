@@ -327,6 +327,16 @@ node dist/cli/index.js setup mcp --transport public --out ./mcp.public.json
 - [Components](docs/components.md)
 - [Security](SECURITY.md)
 
+## Related work
+
+- [cml-evidence-pack](https://github.com/sebb001/cml-evidence-pack) —
+  operational evidence: six governance cases with their coordination
+  records, from the lab where this layer was built and first used.
+- [epilab](https://github.com/sebb001/epilab) — the simulation laboratory
+  testing the underlying governance primitives.
+- [Governing Epistemic Systems](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6417898)
+  (Bohle, 2026, SSRN) — the companion preprint.
+
 ## License
 
 The source code in this repository is licensed under the MIT License. The
