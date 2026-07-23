@@ -419,7 +419,7 @@ async function handleInit(flags: Flags, config: ConfigBundle): Promise<unknown> 
         scope,
         domainId: domain.id,
         title: "CML Bootstrap Contract",
-        body: "This root contract anchors local CML setup. It authorizes reversible local coordination, configuration, and contract import operations for a pilot instance.",
+        body: "This root contract anchors local CML setup. It authorizes reversible local governance, configuration, and contract import operations for a pilot instance.",
         custodianActorId: actor.id,
         status: "active",
       }));
@@ -435,7 +435,7 @@ async function handleInit(flags: Flags, config: ConfigBundle): Promise<unknown> 
         domainId: domain.id,
         parentKey: rootKey,
         title: "Default Agent Actor Type",
-        body: "Default agent actors participate by resolving coordination state first, separating observed, inferred, unresolved, and proposed material when the work is substantive, and recording governed writes when they act.",
+        body: "Default agent actors participate by resolving governed state first, separating observed, inferred, unresolved, and proposed material when the work is substantive, and recording governed writes when they act.",
         custodianActorId: actor.id,
         status: "active",
         governingContractKey: rootKey,
@@ -447,7 +447,7 @@ async function handleInit(flags: Flags, config: ConfigBundle): Promise<unknown> 
       roleRecord = requireOk(await service.registerRole({
         name: "operator",
         contractKey: rootKey,
-        description: "Local operator role for setup, QA, and pilot coordination.",
+        description: "Local operator role for setup, QA, and pilot operations.",
       }));
     }
 

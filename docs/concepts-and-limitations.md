@@ -10,7 +10,7 @@ This repository implements that layer as a pilot substrate. This document is
 the deep dive: what the concepts mean, what the implementation actually
 enforces, and where its honest limits are.
 
-## Coordination objects
+## Core objects
 
 - **Intent:** a requested outcome, mandate, or goal.
 - **Interpretation:** a given actor's current best understanding of an intent.
@@ -46,7 +46,7 @@ and editing a copied contract body changes nothing until a new registry
 revision supersedes the old one.
 
 Files, docs, vault notes, issues, and logs can be evidence, but they are not
-CML records unless a coordination object points to them.
+CML records unless a CML object points to them.
 
 **Status: SUPPORTED inside an adopted workflow.** This repo can be the
 source-of-record for a pilot corridor. It is not an organisation-wide source
@@ -123,7 +123,7 @@ inspection; it cannot guarantee coherence.
 This is v0.0.1 pilot software: good enough for local evaluation and bounded
 pilot investigation, not production operation.
 
-**Works today:** typed records for all coordination objects; SQLite
+**Works today:** typed records for all core objects; SQLite
 persistence behind a service layer; service-level validations for selected
 actor, contract, status, and supersession rules; CLI, MCP (stdio, HTTP, public
 gateway), SDK, and operator-UI adapters; OAuth/OIDC verification with actor
@@ -152,7 +152,7 @@ systems.
 
 The evidence pack is published as
 [cml-evidence-pack](https://github.com/sebb001/cml-evidence-pack): six
-governance cases with their coordination records, from the lab where this
+governance cases with raw records, from the lab where this
 layer was built.
 
 It is operational self-evidence from the author's own lab. It

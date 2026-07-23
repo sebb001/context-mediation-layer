@@ -338,7 +338,7 @@ export class SqliteGovernanceRepository implements GovernanceRepository {
       this.db.exec(CORE_SCHEMA_SQL);
       this.db.prepare(
         "INSERT OR IGNORE INTO scopes (name, description) VALUES (?, ?)"
-      ).run("default", "Default coordination scope.");
+      ).run("default", "Default scope.");
     }
   }
 

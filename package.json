@@ -1,7 +1,7 @@
 {
   "name": "context-mediation-layer",
   "version": "0.0.1",
-  "description": "Pilot coordination layer for mediated human-AI work",
+  "description": "Decision governance and correspondence infrastructure for human-AI environments",
   "type": "module",
   "private": true,
   "bin": {

@@ -2,7 +2,7 @@
  * Governance Domain Model
  *
  * Core CML primitives. Governance-owned types, never mixed with runtime/knowledge
- * or Local ontology. These types form the canonical coordination vocabulary.
+ * or Local ontology. These types form the canonical correspondence vocabulary.
  */
 
 export type IntentId = number & { readonly __brand: "IntentId" };
@@ -300,7 +300,7 @@ export interface Report {
 
 /**
  * Event types are open strings — the governance schema does not constrain them.
- * Common values observed in coordination operations listed here for reference only.
+ * Common values observed in governance operations listed here for reference only.
  */
 export type EventType = string;
 

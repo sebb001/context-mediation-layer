@@ -11,7 +11,7 @@
  * - Handles errors uniformly
  *
  * ADR: CLI is the canonical control plane. MCP is optional adapter.
- * Transport-neutral application service for coordination state.
+ * Transport-neutral application service for governed state.
  */
 
 import { createHash } from "node:crypto";

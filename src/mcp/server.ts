@@ -599,7 +599,7 @@ export class CmlMcpServer {
         name: "cml-mcp",
         version: "0.1.0",
       },
-      instructions: "Use CML tools for governed coordination and vault access. Vault mutations require a mandating intent.",
+      instructions: "Use CML tools for governed state and vault access. Vault mutations require a mandating intent.",
     };
   }
 

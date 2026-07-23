@@ -22,7 +22,7 @@ layer into one record store:
 
 | Slice | Purpose | Primary code | Verification |
 | --- | --- | --- | --- |
-| Mediation surface | Store and inspect coordination records; actionability depends on workflow adoption | `src/governance/`, `src/orchestration/`, `src/ui/`, `src/cli/` | `tests/integration/`, `tests/ui/`, `tests/cli/` |
+| Mediation surface | Store and inspect governance records; actionability depends on workflow adoption | `src/governance/`, `src/orchestration/`, `src/ui/`, `src/cli/` | `tests/integration/`, `tests/ui/`, `tests/cli/` |
 | Slim MCP | Expose a narrow tool surface for agents and clients | `src/mcp/server.ts`, `src/mcp/http.ts`, `src/mcp/public-bridge.ts` | `tests/contracts/mcp-server.test.ts`, `tests/mcp/` |
 | Contract registrar | Store contract matter as first-order state | `src/governance/domain.ts`, `src/governance/service.ts`, `src/governance/sqlite-governance-repository.ts` | `tests/contracts/governance-service.test.ts` |
 | Human legibility | Present statuses, alignments, claims, reports, actions, expertise signals, and events; observed/inferred/unresolved/proposed remains a writing discipline | `src/orchestration/inspect.ts`, `src/cli/index.ts`, `src/ui/index.ts` | integration and UI tests |
@@ -32,7 +32,7 @@ layer into one record store:
 
 ## Record store
 
-`src/governance/sqlite-governance-repository.ts` persists the coordination
+`src/governance/sqlite-governance-repository.ts` persists the governance
 graph defined by `src/governance/schema.ts`: scopes, domains, actors, roles,
 actor_role_bindings, actor_sessions, contracts, intents, interpretations,
 actions, reports, claims, events, expertise_signals, and watermarks.

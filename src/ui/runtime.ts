@@ -1381,14 +1381,14 @@ export function renderMediationCentreRuntime(
       <header class="toolbar">
         <div class="title-block">
           <h1>Mediation Centre</h1>
-          <span id="board-subtitle">Live CML coordination board</span>
+          <span id="board-subtitle">Live CML governance board</span>
         </div>
         <nav class="header-menu" id="header-menu" aria-label="Mediation centre views"></nav>
         <div class="toolbar-actions">
           <div class="search-wrap"><span>/</span><input id="search" type="search" placeholder="Search intents, reports, events"></div>
           <button class="ghost" id="refresh-button">Refresh</button>
           <button class="primary" id="create-intent-button" data-act="open-create-intent">Create Intent</button>
-          <div class="brand-lockup" aria-label="CML"><strong>CML</strong><span>coordination</span></div>
+          <div class="brand-lockup" aria-label="CML"><strong>CML</strong><span>governance</span></div>
         </div>
       </header>
       <div class="live-stripe" id="live-stripe"></div>
@@ -1712,7 +1712,7 @@ export function renderMediationCentreRuntime(
       drawer.setAttribute("aria-hidden", String(!detailOpen || !intent));
       if (!intent) {
         drawer.innerHTML =
-          '<header class="drawer-head"><div class="drawer-rail"><button class="drawer-close" data-act="close-detail-drawer" aria-label="Close detail pane">x</button><nav class="drawer-tabs" role="tablist" aria-label="Detail sections"></nav><div class="brand-lockup drawer-brand" aria-label="CML"><strong>CML</strong><span>coordination</span></div></div><div class="drawer-summary"><div class="drawer-title"><span class="id">No selection</span><h2>Select an intent</h2></div></div></header>' +
+          '<header class="drawer-head"><div class="drawer-rail"><button class="drawer-close" data-act="close-detail-drawer" aria-label="Close detail pane">x</button><nav class="drawer-tabs" role="tablist" aria-label="Detail sections"></nav><div class="brand-lockup drawer-brand" aria-label="CML"><strong>CML</strong><span>governance</span></div></div><div class="drawer-summary"><div class="drawer-title"><span class="id">No selection</span><h2>Select an intent</h2></div></div></header>' +
           '<div class="drawer-body"><section class="empty-board"><strong>Mediation drawer</strong><span>Pick a row to inspect interpretations, events, and governed write controls.</span></section></div>';
         return;
       }
@@ -1727,7 +1727,7 @@ export function renderMediationCentreRuntime(
           '<div class="drawer-rail">' +
             '<button class="drawer-close" data-act="close-detail-drawer" aria-label="Close detail pane">x</button>' +
             '<nav class="drawer-tabs" role="tablist" aria-label="Detail sections">' + ["mediate", "updates", "events"].map((tab) => '<button class="tab ' + (drawerTab === tab ? "active" : "") + '" data-act="drawer-tab" data-tab="' + tab + '" role="tab" aria-selected="' + (drawerTab === tab) + '">' + tabLabels[tab] + '</button>').join("") + '</nav>' +
-            '<div class="brand-lockup drawer-brand" aria-label="CML"><strong>CML</strong><span>coordination</span></div>' +
+            '<div class="brand-lockup drawer-brand" aria-label="CML"><strong>CML</strong><span>governance</span></div>' +
           '</div>' +
           '<div class="drawer-summary">' +
             '<div class="drawer-title"><span class="drawer-breadcrumb">' + esc(bucket.title) + ' / ' + intentCode(intent) + '</span><h2>' + esc(short(intent.description, 120)) + '</h2></div>' +

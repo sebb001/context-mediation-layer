@@ -20,7 +20,7 @@ node dist/cli/index.js status --pretty
 ```
 
 `init` creates `cml.config.json`, a local SQLite database under `./var`, a
-local `./vault` directory, the default scope and coordination domain, a
+local `./vault` directory, the default scope and the `Coordination` domain, a
 default `local-operator` actor, a bootstrap root contract, a default agent
 actor-type contract, and the CLI operator role binding.
 
