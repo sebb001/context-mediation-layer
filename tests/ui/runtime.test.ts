@@ -27,6 +27,8 @@ describe("operator UI runtime", () => {
     expect(runtime.mediaType).toBe("text/html");
     expect(runtime.sha256).toHaveLength(64);
     expect(runtime.html).toContain("width: min(380px, 100vw)");
+    expect(runtime.html).toContain("grid-template-rows: auto auto auto auto minmax(0, 1fr) auto auto");
+    expect(runtime.html).toContain("const plural");
     expect(runtime.html).toContain('"mode":"mcp-sandbox"');
     expect(runtime.html).toContain("Divergent reading A");
     expect(runtime.html).not.toContain("do-not-keep");
@@ -115,6 +117,14 @@ describe("operator UI runtime", () => {
     expect(runtime.html).toContain(".toolbar-actions { width: 100%; min-width: 0; flex-wrap: wrap;");
     expect(runtime.html).toContain(".table-head div:nth-child(n+6), .table-row .cell:nth-child(n+6) { display: none; }");
     expect(runtime.html).toContain('"name":"cml-mediation-centre"');
+    expect(runtime.html).toContain('data-act="submit-supersede"');
+    expect(runtime.html).toContain("Supersede Interpretation");
+    expect(runtime.html).toContain("Replacement headline");
+    expect(runtime.html).toContain('event.entityTable === "actions"');
+    expect(runtime.html).toContain('event.entityTable === "reports"');
+    expect(runtime.html).toContain(".live-stripe.warn::before");
+    expect(runtime.html).toContain("const plural");
+    expect(runtime.html).not.toContain("rail-footer");
   });
 });
 

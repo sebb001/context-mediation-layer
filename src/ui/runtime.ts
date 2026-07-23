@@ -362,8 +362,8 @@ export function renderOperatorRuntime(
       font-size: 12px;
     }
     textarea { min-height: 72px; resize: vertical; }
-    .app { width: min(380px, 100vw); height: 100vh; display: grid; grid-template-rows: auto auto minmax(0, 1fr) auto auto; background: var(--bg); }
-    .top { padding: 10px 10px 8px; border-bottom: 1px solid var(--line); background: #17191c; }
+    .app { width: min(380px, 100vw); height: 100vh; display: grid; grid-template-rows: auto auto auto auto minmax(0, 1fr) auto auto; background: var(--bg); }
+    .top { grid-row: 1; padding: 10px 10px 8px; border-bottom: 1px solid var(--line); background: #17191c; }
     .head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
     .brand { min-width: 0; }
     .brand strong { display: block; font-size: 14px; line-height: 1.15; }
@@ -373,17 +373,17 @@ export function renderOperatorRuntime(
     .metric { border: 1px solid var(--line-soft); border-radius: 6px; padding: 6px; background: var(--panel); min-width: 0; }
     .metric span { display: block; color: var(--faint); font-size: 9px; text-transform: uppercase; }
     .metric strong { display: block; font-size: 15px; line-height: 1.2; margin-top: 2px; }
-    .attention { border-bottom: 1px solid var(--line); padding: 7px 10px; background: #15171a; min-height: 50px; }
+    .attention { grid-row: 2; border-bottom: 1px solid var(--line); padding: 7px 10px; background: #15171a; min-height: 50px; }
     .attention-card { border-left: 3px solid var(--focus); padding-left: 8px; min-height: 34px; display: grid; gap: 2px; }
     .attention-card.red { border-left-color: var(--red); }
     .attention-card.amber { border-left-color: var(--focus); }
     .attention-card.blue { border-left-color: var(--blue); }
     .attention-card .label { color: var(--muted); font-size: 10px; text-transform: uppercase; }
     .attention-card .title { font-size: 12px; line-height: 1.25; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; padding: 8px 10px; border-bottom: 1px solid var(--line); background: var(--bg); }
+    .tabs { grid-row: 4; display: grid; grid-template-columns: 1fr 1fr; gap: 4px; padding: 8px 10px; border-bottom: 1px solid var(--line); background: var(--bg); }
     .tab { background: transparent; color: var(--muted); }
     .tab.active { background: var(--panel-2); color: var(--text); border-color: var(--focus); }
-    .main { min-height: 0; overflow: hidden; position: relative; }
+    .main { grid-row: 5; min-height: 0; overflow: hidden; position: relative; }
     .list { height: 100%; overflow: auto; padding: 8px 10px 12px; display: grid; align-content: start; gap: 7px; }
     .card, .block, .activity-item { border: 1px solid var(--line-soft); border-radius: 8px; background: var(--panel); box-shadow: 0 8px 18px var(--shadow); }
     .card { padding: 8px; cursor: pointer; position: relative; }
@@ -413,11 +413,11 @@ export function renderOperatorRuntime(
     .report { border-top: 1px solid var(--line-soft); padding-top: 6px; margin-top: 6px; }
     .activity-item { padding: 8px; border-left: 3px solid var(--blue); animation: slide-in 160ms ease-out; }
     @keyframes slide-in { from { transform: translateX(10px); opacity: 0.3; } to { transform: translateX(0); opacity: 1; } }
-    .logger { border-top: 1px solid var(--line); background: #17191c; padding: 8px 10px; display: grid; gap: 6px; }
+    .logger { grid-row: 6; border-top: 1px solid var(--line); background: #17191c; padding: 8px 10px; display: grid; gap: 6px; }
     .logger-context { display: flex; justify-content: space-between; gap: 6px; min-width: 0; color: var(--muted); font-size: 11px; }
     .pills { display: flex; gap: 5px; overflow: auto; }
     .pills button.active { border-color: var(--focus); color: #1b1204; background: var(--focus); font-weight: 700; }
-    .actor-bar { border-top: 1px solid var(--line); background: var(--panel-3); padding: 6px 10px; }
+    .actor-bar { grid-row: 7; border-top: 1px solid var(--line); background: var(--panel-3); padding: 6px 10px; }
     .chips { display: flex; gap: 5px; overflow: auto; align-items: center; }
     .chip { flex: 0 0 auto; border: 1px solid var(--line); border-radius: 999px; padding: 4px 7px; font-size: 11px; color: var(--muted); background: var(--panel); }
     .chip.drop { border-color: var(--focus); background: var(--focus-soft); color: var(--text); }
@@ -430,7 +430,7 @@ export function renderOperatorRuntime(
     .overlay h2 { margin: 0 0 8px; font-size: 14px; }
     .shortcuts { display: grid; grid-template-columns: auto 1fr; gap: 6px 10px; font-size: 11px; }
     .kbd { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--focus); }
-    .search { display: none; padding: 7px 10px; border-bottom: 1px solid var(--line); }
+    .search { grid-row: 3; display: none; padding: 7px 10px; border-bottom: 1px solid var(--line); }
     .search.open { display: block; }
     .empty { color: var(--muted); font-size: 12px; border: 1px dashed var(--line); border-radius: 8px; padding: 12px; text-align: center; }
   </style>
@@ -506,14 +506,36 @@ export function renderOperatorRuntime(
     const intentId = (intent) => "INTENT-" + intent.id;
     const interpId = (interp) => "INT-" + interp.id;
     const reportId = (report) => "RPT-" + report.id;
+    const plural = (count, one, many) => count + " " + (Number(count) === 1 ? one : (many || one + "s"));
+    const entityLabel = (sel) => {
+      if (!sel) return "nothing selected";
+      if (sel.type === "intent") return "INTENT-" + sel.id;
+      if (sel.type === "interpretation") return "INT-" + sel.id;
+      if (sel.type === "report") return "RPT-" + sel.id;
+      if (sel.type === "divergence_group") {
+        const ref = sel.intentId != null ? sel.intentId : String(sel.id).replace(/^group:/, "");
+        return "divergence group INTENT-" + ref;
+      }
+      return sel.type + " " + sel.id;
+    };
     const draftKey = () => selected ? "draft:" + selected.type + ":" + selected.id + ":" + activeAction : "";
     const now = () => Date.now();
+    let errorNotice = null;
+
+    function showError(message) {
+      errorNotice = String(message || "Unexpected error");
+      renderAttention();
+      clearTimeout(window.__cmlErrorTimer);
+      window.__cmlErrorTimer = setTimeout(() => { errorNotice = null; renderAttention(); }, 6000);
+    }
+    window.addEventListener("cml:operator-error", (event) => showError(event.detail));
 
     function saveDraft(reason, body) {
       if (!selected) return;
       const payload = { reason, body, savedAt: now() };
       localStorage.setItem(draftKey(), JSON.stringify(payload));
-      renderLogger();
+      const indicator = $("draft-indicator");
+      if (indicator) indicator.textContent = "draft";
     }
 
     function loadDraft() {
@@ -559,6 +581,7 @@ export function renderOperatorRuntime(
         hasDraft: draft.hasDraft,
       };
       if (runtimeMode === "remote-http") {
+        if (!state || !state.actor) return;
         try {
           await fetch("/api/focus", {
             method: "POST",
@@ -619,6 +642,10 @@ export function renderOperatorRuntime(
     }
 
     function renderAttention() {
+      if (errorNotice) {
+        $("attention").innerHTML = '<div class="attention-card red"><div class="label">error</div><div class="title">' + esc(errorNotice) + '</div></div>';
+        return;
+      }
       const items = state && state.attention ? state.attention : [];
       if (!items.length) {
         $("attention").innerHTML = '<div class="attention-card blue"><div class="label">clear</div><div class="title">No flagged divergence or unresolved attention item in the snapshot.</div></div>';
@@ -654,7 +681,7 @@ export function renderOperatorRuntime(
       return '<article class="card ' + (isSelected ? "selected " : "") + (unread ? "unread" : "") + '" draggable="true" data-type="intent" data-id="' + intent.id + '">' +
         '<div class="between"><span class="id">' + prefix + intentId(intent) + '</span>' + statusPicker("intent", intent.id, intent.status) + '</div>' +
         '<div class="title">' + esc(short(intent.description, 190)) + '</div>' +
-        '<div class="between small"><span>' + interps.length + ' interpretations</span><span>' + reports.length + ' reports</span></div>' +
+        '<div class="between small"><span>' + plural(interps.length, "interpretation") + '</span><span>' + plural(reports.length, "report") + '</span></div>' +
         '<div class="actions">' +
           '<button data-act="select-intent" data-id="' + intent.id + '">' + (isOpen ? "collapse" : "open") + '</button>' +
           '<button data-act="copy" data-type="intent" data-id="' + intent.id + '">copy md</button>' +
@@ -687,7 +714,7 @@ export function renderOperatorRuntime(
       const chainKey = String(interp.id);
       return '<article class="interp ' + (isSelected ? "selected" : "") + '" data-type="interpretation" data-id="' + interp.id + '">' +
         '<div class="between"><span class="id">' + interpId(interp) + '</span>' + statusPicker("interpretation", interp.id, interp.status) + '</div>' +
-        '<div class="title">' + esc(short(interp.title, compact ? 100 : 150)) + '</div>' +
+        '<div class="title">' + esc(short(interp.title, compact ? 160 : 300)) + '</div>' +
         '<div class="row"><span class="pill ' + esc(interp.alignment) + '">' + esc(interp.alignment) + '</span><span class="pill ' + esc(interp.status) + '">' + esc(interp.status) + '</span></div>' +
         (interp.scopeAssumption && !compact ? '<div class="small">' + esc(short(interp.scopeAssumption, 180)) + '</div>' : '') +
         '<div class="actions">' +
@@ -704,13 +731,13 @@ export function renderOperatorRuntime(
       if (!reports.length) return "";
       const key = String(intentIdValue);
       const open = reportOpen.has(key);
-      return '<section class="report"><button data-act="toggle-reports" data-id="' + key + '">' + reports.length + ' reports</button>' +
+      return '<section class="report"><button data-act="toggle-reports" data-id="' + key + '">' + plural(reports.length, "report") + '</button>' +
         (open ? reports.map((report) => '<div class="small"><span class="id">' + reportId(report) + '</span> ' + esc(report.title) + '</div>').join("") : "") +
       '</section>';
     }
 
     function renderChildren(children, level) {
-      if (!children.length || level >= 2) return children.length ? '<div class="tree small">' + children.length + ' more sub-intents</div>' : "";
+      if (!children.length || level >= 2) return children.length ? '<div class="tree small">' + plural(children.length, "more sub-intent", "more sub-intents") + '</div>' : "";
       return '<div class="tree">' + children.map((child) => renderIntentCard(child, level + 1)).join("") + '</div>';
     }
 
@@ -719,7 +746,10 @@ export function renderOperatorRuntime(
       const reports = (state && state.reports ? state.reports : []).filter((report) => report.intentId == null);
       const reportItems = reports.map((report) => ({ kind: "report", createdAt: report.createdAt, item: report }));
       const eventItems = events.map((event) => ({ kind: "event", createdAt: event.createdAt, item: event }));
-      const items = [...reportItems, ...eventItems].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()).slice(0, 80);
+      const items = [...reportItems, ...eventItems].sort((a, b) => {
+        const delta = new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+        return delta !== 0 ? delta : Number(b.item.id) - Number(a.item.id);
+      }).slice(0, 80);
       if (!items.length) return '<div class="empty">No activity in the current snapshot.</div>';
       return items.map((entry) => {
         if (entry.kind === "report") {
@@ -743,13 +773,16 @@ export function renderOperatorRuntime(
 
     function renderLogger() {
       const draft = loadDraft();
-      const selectedLabel = selected ? selected.type + " " + selected.id : "nothing selected";
+      const selectedLabel = entityLabel(selected);
       const allowed = selected && selected.type === "divergence_group" ? ["resolve", "action"] : selected && selected.type === "interpretation" ? ["update", "supersede", "action"] : ["update", "action"];
       if (!allowed.includes(activeAction)) activeAction = allowed[0];
+      const targetIntent = (state && state.intents ? state.intents : []).find((item) => Number(item.id) === Number(currentIntentId()));
+      const actionBlocked = Boolean(targetIntent && targetIntent.status !== "active");
+      if (actionBlocked && activeAction === "action") activeAction = allowed.find((action) => action !== "action") || allowed[0];
       const needsReason = ["update", "supersede", "resolve"].includes(activeAction);
       $("logger").innerHTML =
-        '<div class="logger-context"><span>' + esc(selectedLabel) + '</span><span>' + (draft.hasDraft ? 'draft' : runtimeMode) + '</span></div>' +
-        '<div class="pills">' + allowed.map((action) => '<button data-act="logger-action" data-action="' + action + '" class="' + (activeAction === action ? "active" : "") + '">' + action + '</button>').join("") + '</div>' +
+        '<div class="logger-context"><span>' + esc(selectedLabel) + '</span><span id="draft-indicator">' + (draft.hasDraft ? 'draft' : runtimeMode) + '</span></div>' +
+        '<div class="pills">' + allowed.map((action) => '<button data-act="logger-action" data-action="' + action + '" class="' + (activeAction === action ? "active" : "") + '"' + (action === "action" && actionBlocked ? ' disabled aria-disabled="true" title="Only active intents accept actions"' : '') + '>' + action + '</button>').join("") + '</div>' +
         (needsReason ? '<input id="reason" placeholder="Reason" value="' + esc(draft.reason) + '">' : '') +
         '<textarea id="body" placeholder="Body">' + esc(draft.body) + '</textarea>' +
         '<div class="between"><button data-act="discard-draft">discard</button><button class="primary" data-act="submit">commit</button></div>';
@@ -762,7 +795,7 @@ export function renderOperatorRuntime(
       $("actor-bar").className = "actor-bar" + (actorOpen ? " open" : "");
       $("actor-bar").innerHTML =
         '<div class="between"><div class="chips">' + actors.slice(0, 8).map((actor) => chip(actor, claimCounts[actor.id] || 0)).join("") + '</div><button class="icon" data-act="toggle-roster">' + (actorOpen ? "v" : "^") + '</button></div>' +
-        '<div class="roster">' + actors.map((actor) => '<div class="roster-row" data-actor-id="' + actor.id + '"><span>' + esc(actor.name) + '</span><span class="small">' + esc(actor.defaultScope || "") + ' / ' + (claimCounts[actor.id] || 0) + ' claims</span></div>').join("") + '</div>';
+        '<div class="roster">' + actors.map((actor) => '<div class="roster-row" data-actor-id="' + actor.id + '"><span>' + esc(actor.name) + '</span><span class="small">' + esc(actor.defaultScope || "") + ' / ' + plural(claimCounts[actor.id] || 0, "claim") + '</span></div>').join("") + '</div>';
     }
 
     function chip(actor, claims) {
@@ -895,6 +928,8 @@ export function renderOperatorRuntime(
           setSelected({ type: "divergence_group", id: target.dataset.id, intentId: Number(target.dataset.intentId) }, { pendingAction: "resolve" });
         } else if (act === "copy") {
           await copyMarkdown(target.dataset.type, target.dataset.id);
+          target.textContent = "copied";
+          setTimeout(() => { if (target.isConnected) target.textContent = "copy md"; }, 1500);
         } else if (act === "claim") {
           await claimEntity(target.dataset.type, target.dataset.id);
         } else if (act === "toggle-chain") {
@@ -925,7 +960,11 @@ export function renderOperatorRuntime(
     document.addEventListener("change", async (event) => {
       const target = event.target;
       if (target && target.dataset && target.dataset.act === "status") {
-        await updateStatus(target.dataset.type, target.dataset.id, target.value);
+        try {
+          await updateStatus(target.dataset.type, target.dataset.id, target.value);
+        } catch (error) {
+          window.dispatchEvent(new CustomEvent("cml:operator-error", { detail: String(error && error.message ? error.message : error) }));
+        }
       }
     });
 
@@ -978,11 +1017,15 @@ export function renderOperatorRuntime(
       chip.classList.remove("drop");
       const intent = Number(event.dataTransfer.getData("text/plain"));
       const actor = Number(chip.dataset.actorId);
-      await callAction("intent_update", { id: intent, addressedTo: actor, reason: "Drag-to-address from operator sidebar" }, {
-        method: "PATCH",
-        path: "/api/intents/" + intent,
-        body: { addressedTo: actor, reason: "Drag-to-address from operator sidebar" },
-      });
+      try {
+        await callAction("intent_update", { id: intent, addressedTo: actor, reason: "Drag-to-address from operator sidebar" }, {
+          method: "PATCH",
+          path: "/api/intents/" + intent,
+          body: { addressedTo: actor, reason: "Drag-to-address from operator sidebar" },
+        });
+      } catch (error) {
+        window.dispatchEvent(new CustomEvent("cml:operator-error", { detail: String(error && error.message ? error.message : error) }));
+      }
     });
 
     function selectFromElement(element) {
@@ -1003,17 +1046,24 @@ export function renderOperatorRuntime(
       if (pendingPrefix === "n") {
         const key = event.key.toLowerCase();
         pendingPrefix = null;
+        const surfaceWriteError = (error) => showError(String(error && error.message ? error.message : error));
         if (key === "i") {
-          setSelected({ type: "intent", id: "new" });
-          activeAction = "update";
-          stageCall("intent_create", { description: "", source: "operator-sidebar" });
+          const intentBody = { description: "Draft intent from operator sidebar", source: "operator-sidebar", status: "draft" };
+          callAction("intent_create", intentBody, { path: "/api/intents", body: intentBody }).catch(surfaceWriteError);
         } else if (key === "r" && currentIntentId()) {
-          stageCall("interpretation_create", { intentId: currentIntentId(), title: "", domainId: (state.domains[0] && state.domains[0].id) || undefined });
+          const firstDomain = (state.domains || [])[0];
+          if (!firstDomain) {
+            showError("No domain available for a new interpretation.");
+            return;
+          }
+          const interpretationBody = { intentId: currentIntentId(), domainId: Number(firstDomain.id), title: "Draft interpretation from operator sidebar", status: "proposed", alignment: "uncertain" };
+          callAction("interpretation_create", interpretationBody, { path: "/api/interpretations", body: interpretationBody }).catch(surfaceWriteError);
         } else if (key === "a" && currentIntentId()) {
           activeAction = "action";
           renderLogger();
         } else if (key === "p") {
-          stageCall("report_create", { intentId: currentIntentId(), title: "", summary: "" });
+          const reportBody = { intentId: currentIntentId(), kind: "operator-note", title: "Operator sidebar report", summary: "Draft report from operator sidebar" };
+          callAction("report_create", reportBody, { path: "/api/reports", body: reportBody }).catch(surfaceWriteError);
         }
         return;
       }
@@ -1031,13 +1081,23 @@ export function renderOperatorRuntime(
         renderLogger();
       } else if (event.key === "/") {
         event.preventDefault();
-        searchOpen = true;
+        searchOpen = !searchOpen;
+        if (!searchOpen) {
+          query = "";
+          $("search").value = "";
+        }
         render();
-        $("search").focus();
+        if (searchOpen) $("search").focus();
       } else if (event.key === "?") {
         $("overlay").classList.add("open");
       } else if (event.key === "Escape") {
         if ($("overlay").classList.contains("open")) $("overlay").classList.remove("open");
+        else if (searchOpen) {
+          searchOpen = false;
+          query = "";
+          $("search").value = "";
+          render();
+        }
         else if (selected) { discardDraft(); selected = null; render(); }
       }
     });
@@ -1078,6 +1138,16 @@ export function renderMediationCentreRuntime(
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>CML Mediation Centre</title>
+  <script>
+    (() => {
+      let theme = null;
+      try { theme = localStorage.getItem("cml-theme"); } catch { theme = null; }
+      if (theme !== "dark" && theme !== "light") {
+        theme = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      }
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
   <style>
     :root {
       color-scheme: light;
@@ -1108,12 +1178,86 @@ export function renderMediationCentreRuntime(
       --teal-edge: #abd3d8;
       --berry: #9d3c60;
       --berry-soft: #fae3ec;
+      --primary: #3977d4;
+      --on-primary: #ffffff;
+      --on-accent: #fffdfa;
+      --inset: #fbfcfe;
+      --row-hover: #fbfdff;
+      --pill-closed-bg: #f1f3f6;
+      --domain-bg: #eef2f7;
+      --domain-text: #344054;
+      --avatar-bg: #f5f7fb;
+      --avatar-text: #20242b;
+      --mutate-text: #8a5a12;
+      --amber-edge: rgba(199, 131, 30, 0.48);
+      --amber-edge-soft: rgba(199, 131, 30, 0.36);
+      --amber-inset: rgba(199, 131, 30, 0.08);
+      --green-edge: rgba(46, 155, 97, 0.32);
+      --red-edge: rgba(209, 76, 66, 0.34);
+      --berry-edge: rgba(157, 60, 96, 0.28);
+      --focus-ring: rgba(57, 119, 212, 0.28);
+      --btn-hover-shadow: rgba(16, 24, 40, 0.04);
+      --card-shadow: rgba(15, 23, 42, 0.04);
+      --drawer-shadow: rgba(23, 23, 23, 0.45);
+      --modal-shadow: rgba(15, 23, 42, 0.22);
+      --scrim: rgba(15, 23, 42, 0.34);
       --chrome-height: 72px;
       --mode-height: 30px;
       --detail-drawer-width: 480px;
       --detail-drawer-space: min(var(--detail-drawer-width), 42vw);
       --font-sans: Inter, "Avenir Next", "Segoe UI", system-ui, sans-serif;
       --font-mono: "JetBrains Mono", "SF Mono", "IBM Plex Mono", ui-monospace, monospace;
+    }
+    :root[data-theme="dark"] {
+      color-scheme: dark;
+      --bg: #131416;
+      --surface: #1d2024;
+      --surface-2: #252a30;
+      --line: #39414a;
+      --line-soft: #2d333a;
+      --text: #f2f0ea;
+      --muted: #abb1b8;
+      --faint: #747d86;
+      --blue: #7da2d6;
+      --green: #79b884;
+      --amber: #d2a45f;
+      --red: #d66f67;
+      --violet: #b49ad7;
+      --blue-soft: rgba(125, 162, 214, 0.16);
+      --green-soft: rgba(121, 184, 132, 0.16);
+      --amber-soft: rgba(210, 164, 95, 0.18);
+      --red-soft: rgba(214, 111, 103, 0.16);
+      --glass: rgba(23, 25, 28, 0.9);
+      --shadow: rgba(0, 0, 0, 0.36);
+      --paper: #1d2024;
+      --teal: #5aa8b8;
+      --teal-soft: rgba(90, 168, 184, 0.16);
+      --teal-edge: rgba(90, 168, 184, 0.4);
+      --berry: #c96f96;
+      --berry-soft: rgba(201, 111, 150, 0.16);
+      --primary: #d2a45f;
+      --on-primary: #1b1204;
+      --on-accent: #10171a;
+      --inset: #181b1f;
+      --row-hover: #222323;
+      --pill-closed-bg: #252a30;
+      --domain-bg: #252a30;
+      --domain-text: #abb1b8;
+      --avatar-bg: #252a30;
+      --avatar-text: #f2f0ea;
+      --mutate-text: #f0d6a5;
+      --amber-edge: rgba(210, 164, 95, 0.48);
+      --amber-edge-soft: rgba(210, 164, 95, 0.36);
+      --amber-inset: rgba(210, 164, 95, 0.08);
+      --green-edge: rgba(121, 184, 132, 0.32);
+      --red-edge: rgba(214, 111, 103, 0.34);
+      --berry-edge: rgba(201, 111, 150, 0.32);
+      --focus-ring: rgba(125, 162, 214, 0.34);
+      --btn-hover-shadow: rgba(0, 0, 0, 0.3);
+      --card-shadow: rgba(0, 0, 0, 0.3);
+      --drawer-shadow: rgba(0, 0, 0, 0.6);
+      --modal-shadow: rgba(0, 0, 0, 0.5);
+      --scrim: rgba(0, 0, 0, 0.55);
     }
     @supports (color: color-mix(in oklab, white, black)) {
       :root {
@@ -1125,6 +1269,16 @@ export function renderMediationCentreRuntime(
         --red-soft: color-mix(in oklab, var(--red) 11%, white);
         --glass: color-mix(in oklab, var(--surface) 88%, transparent);
         --shadow: color-mix(in oklab, #101828 16%, transparent);
+      }
+      :root[data-theme="dark"] {
+        --surface-2: color-mix(in oklab, var(--surface) 84%, var(--line));
+        --line-soft: color-mix(in oklab, var(--line) 62%, var(--bg));
+        --blue-soft: color-mix(in oklab, var(--blue) 16%, transparent);
+        --green-soft: color-mix(in oklab, var(--green) 16%, transparent);
+        --amber-soft: color-mix(in oklab, var(--amber) 18%, transparent);
+        --red-soft: color-mix(in oklab, var(--red) 16%, transparent);
+        --glass: color-mix(in oklab, var(--surface) 90%, transparent);
+        --shadow: color-mix(in oklab, black 36%, transparent);
       }
     }
     * { box-sizing: border-box; }
@@ -1153,10 +1307,10 @@ export function renderMediationCentreRuntime(
       cursor: pointer;
       transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease, box-shadow 150ms ease, transform 150ms ease;
     }
-    button:hover:not(:disabled) { box-shadow: 0 1px 0 rgba(16, 24, 40, 0.04); transform: translateY(-1px); }
-    button.primary { background: var(--blue); border-color: var(--blue); color: #fff; font-weight: 600; }
+    button:hover:not(:disabled) { box-shadow: 0 1px 0 var(--btn-hover-shadow); transform: translateY(-1px); }
+    button.primary { background: var(--primary); border-color: var(--primary); color: var(--on-primary); font-weight: 600; }
     button.ghost { background: transparent; }
-    button.mutate { border-color: rgba(199, 131, 30, 0.48); background: var(--amber-soft); color: #8a5a12; }
+    button.mutate { border-color: var(--amber-edge); background: var(--amber-soft); color: var(--mutate-text); }
     button.icon { width: 30px; height: 30px; padding: 0; display: inline-grid; place-items: center; }
     button:disabled, select:disabled, input:disabled, textarea:disabled { opacity: 0.48; cursor: default; }
     input, select, textarea {
@@ -1172,14 +1326,14 @@ export function renderMediationCentreRuntime(
       line-height: 1.25;
     }
     textarea { min-height: 84px; resize: vertical; }
-    input:focus, select:focus, textarea:focus, button:focus-visible { outline: 2px solid rgba(57, 119, 212, 0.28); outline-offset: 1px; }
+    input:focus, select:focus, textarea:focus, button:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 1px; }
     @supports (outline-color: color-mix(in oklab, white, black)) {
       input:focus, select:focus, textarea:focus, button:focus-visible { outline-color: color-mix(in oklab, var(--blue) 34%, transparent); }
     }
     .mediation-centre { min-height: 100vh; display: grid; grid-template-columns: minmax(0, 1fr); align-items: start; background: var(--bg); }
     .actor-chip { display: flex; align-items: center; gap: 8px; min-width: 0; }
-    .avatar { width: 26px; height: 26px; border-radius: 6px; background: #f5f7fb; color: var(--rail); display: inline-grid; place-items: center; font-weight: 600; font-size: 11px; flex: 0 0 auto; }
-    .main { container: main / inline-size; min-width: 0; min-height: 100vh; display: grid; grid-template-rows: auto auto auto minmax(0, 1fr); }
+    .avatar { width: 26px; height: 26px; border-radius: 6px; background: var(--avatar-bg); color: var(--avatar-text); display: inline-grid; place-items: center; font-weight: 600; font-size: 11px; flex: 0 0 auto; }
+    .main { container: main / inline-size; min-width: 0; min-height: 100vh; display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: auto auto auto minmax(0, 1fr); }
     .toolbar { min-height: var(--chrome-height); background: var(--glass); border-bottom: 1px solid var(--line); padding: 10px 16px; display: grid; grid-template-columns: minmax(180px, 0.5fr) minmax(340px, 1fr) minmax(360px, 0.82fr); align-items: center; gap: 14px; min-width: 0; backdrop-filter: blur(14px) saturate(1.12); position: sticky; top: 0; z-index: 16; transition: margin-right 240ms cubic-bezier(.2,.7,.2,1); }
     .title-block { min-width: 0; }
     .title-block h1 { margin: 0; font-size: 22px; line-height: 1.15; font-weight: 500; }
@@ -1187,17 +1341,17 @@ export function renderMediationCentreRuntime(
     .header-menu { min-width: 0; display: flex; align-items: center; gap: 6px; overflow-x: auto; scrollbar-width: none; border: 1px solid var(--line); border-radius: 999px; background: var(--surface-2); padding: 4px; }
     .header-menu::-webkit-scrollbar { display: none; }
     .header-menu button { flex: 0 0 auto; border-radius: 999px; border-color: transparent; background: transparent; color: var(--muted); font-family: var(--font-mono); font-size: 11px; font-weight: 500; padding: 7px 11px; }
-    .header-menu button.active { background: var(--teal); border-color: var(--teal); color: #fffdfa; }
+    .header-menu button.active { background: var(--teal); border-color: var(--teal); color: var(--on-accent); }
     .toolbar-actions { display: flex; align-items: center; gap: 8px; min-width: 0; }
     .search-wrap { position: relative; flex: 1 1 auto; }
     .search-wrap input { padding-left: 30px; }
     .search-wrap span { position: absolute; left: 10px; top: 8px; color: var(--faint); font-size: 12px; }
-    .brand-lockup { flex: 0 0 auto; display: grid; gap: 1px; justify-items: end; border-left: 1px solid var(--line); padding-left: 12px; color: var(--text); }
+    .brand-lockup { flex: 0 0 auto; display: grid; align-content: center; justify-items: end; border-left: 1px solid var(--line); padding-left: 12px; color: var(--text); }
     .brand-lockup strong { font-size: 13px; line-height: 1; letter-spacing: 0; font-weight: 600; }
-    .brand-lockup span { color: var(--muted); font-size: 10px; line-height: 1.1; }
-    .live-stripe { min-height: var(--mode-height); background: #fbfcfe; border-bottom: 1px solid var(--line); color: var(--muted); display: flex; align-items: center; gap: 8px; padding: 5px 16px; font-size: 11px; transition: margin-right 240ms cubic-bezier(.2,.7,.2,1); }
+    .live-stripe { min-height: var(--mode-height); background: var(--inset); border-bottom: 1px solid var(--line); color: var(--muted); display: flex; align-items: center; gap: 8px; padding: 5px 16px; font-size: 11px; transition: margin-right 240ms cubic-bezier(.2,.7,.2,1); }
     .live-stripe::before { content: ""; width: 7px; height: 7px; border-radius: 999px; background: var(--amber); flex: 0 0 auto; }
     .live-stripe.ok::before { background: var(--green); }
+    .live-stripe.warn::before { background: var(--amber); box-shadow: 0 0 0 3px var(--amber-soft); }
     .live-stripe.error::before { background: var(--red); }
     .state-strip { background: var(--glass); border-bottom: 1px solid var(--line); padding: 10px 16px; display: flex; align-items: center; gap: 8px; overflow: auto; backdrop-filter: blur(14px) saturate(1.08); }
     .filter-set { flex: 0 0 auto; display: flex; align-items: center; gap: 6px; }
@@ -1207,8 +1361,8 @@ export function renderMediationCentreRuntime(
     .board-wrap { min-height: 0; overflow: visible; padding: 14px 16px 22px; }
     .setup-panel, .empty-board { border: 1px dashed var(--line); border-radius: 8px; background: var(--surface); padding: 20px; color: var(--muted); display: grid; gap: 8px; }
     .setup-panel strong, .empty-board strong { color: var(--text); }
-    .group { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; margin-bottom: 14px; overflow: hidden; box-shadow: 0 8px 18px rgba(15, 23, 42, 0.04); content-visibility: auto; contain-intrinsic-size: auto 320px; }
-    .group-head { height: 38px; display: grid; grid-template-columns: 4px 1fr auto; align-items: center; border-bottom: 1px solid var(--line); background: #fbfcfe; }
+    .group { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; margin-bottom: 14px; overflow: hidden; box-shadow: 0 8px 18px var(--card-shadow); content-visibility: auto; contain-intrinsic-size: auto 320px; }
+    .group-head { height: 38px; display: grid; grid-template-columns: 4px 1fr auto; align-items: center; border-bottom: 1px solid var(--line); background: var(--inset); }
     .group-bar.needs { background: var(--red); height: 100%; }
     .group-bar.active { background: var(--green); height: 100%; }
     .group-bar.draft { background: var(--amber); height: 100%; }
@@ -1216,27 +1370,28 @@ export function renderMediationCentreRuntime(
     .group-title { display: flex; align-items: center; gap: 8px; padding: 0 10px; font-size: 15px; font-weight: 500; }
     .group-count { color: var(--muted); padding-right: 12px; font-family: var(--font-mono); font-size: 10px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; }
     .table { min-width: 800px; }
-    .table-row, .table-head { display: grid; grid-template-columns: 28px minmax(170px, 1.4fr) 78px 86px 68px 82px 48px 48px minmax(72px, 0.7fr) 64px; align-items: stretch; }
+    .table-row, .table-head { display: grid; grid-template-columns: 28px minmax(170px, 1.4fr) 104px 112px 112px 96px 48px 48px minmax(96px, 0.7fr) 64px; align-items: stretch; }
     .table-head { background: var(--surface-2); color: var(--muted); font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; font-weight: 500; letter-spacing: 0.06em; border-bottom: 1px solid var(--line-soft); }
     .table-head div, .cell { border-right: 1px solid var(--line-soft); min-width: 0; }
     .table-head div { padding: 8px 9px; }
     .table-row { min-height: 48px; border-bottom: 1px solid var(--line-soft); background: var(--surface); cursor: pointer; transition: background-color 150ms ease, box-shadow 150ms ease; }
     .table-row:last-child { border-bottom: 0; }
-    .table-row:hover { background: #fbfdff; }
+    .table-row:hover { background: var(--row-hover); }
     .table-row.selected { background: var(--blue-soft); box-shadow: inset 3px 0 0 var(--blue); }
     .cell { padding: 8px 9px; display: flex; align-items: center; gap: 7px; min-width: 0; font-size: 12px; }
     .cell.center { justify-content: center; }
     .intent-title { display: grid; gap: 2px; min-width: 0; }
     .intent-title strong { font-size: 13px; line-height: 1.25; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .intent-title span, .tiny { color: var(--muted); font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .drawer .tiny { white-space: normal; overflow: visible; text-overflow: clip; }
     .id { color: var(--faint); font-family: var(--font-mono); font-size: 10px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; }
-    .status-select, .alignment-select { font-size: 11px; font-weight: 500; border-radius: 6px; padding: 6px 7px; }
-    .mutate-control { border-color: rgba(199, 131, 30, 0.48); box-shadow: inset 0 0 0 1px rgba(199, 131, 30, 0.08); }
-    .status-select.active, .pill.active { background: var(--green-soft); color: var(--green); border-color: rgba(46, 155, 97, 0.32); }
-    .status-select.draft, .pill.draft, .pill.uncertain, .pill.proposed, .pill.clarifying { background: var(--amber-soft); color: var(--amber); border-color: rgba(199, 131, 30, 0.36); }
-    .status-select.closed, .status-select.superseded, .pill.closed, .pill.superseded { background: #f1f3f6; color: var(--muted); border-color: var(--line); }
-    .pill.divergent, .pill.flagged { background: var(--red-soft); color: var(--red); border-color: rgba(209, 76, 66, 0.34); }
-    .pill.aligned { background: var(--green-soft); color: var(--green); border-color: rgba(46, 155, 97, 0.32); }
+    .status-select, .alignment-select { font-size: 11px; font-weight: 500; border-radius: 6px; padding: 6px; }
+    .mutate-control { border-color: var(--amber-edge); box-shadow: inset 0 0 0 1px var(--amber-inset); }
+    .status-select.active, .pill.active { background: var(--green-soft); color: var(--green); border-color: var(--green-edge); }
+    .status-select.draft, .pill.draft, .pill.uncertain, .pill.proposed, .pill.clarifying { background: var(--amber-soft); color: var(--amber); border-color: var(--amber-edge-soft); }
+    .status-select.closed, .status-select.superseded, .pill.closed, .pill.superseded { background: var(--pill-closed-bg); color: var(--muted); border-color: var(--line); }
+    .pill.divergent, .pill.flagged { background: var(--red-soft); color: var(--red); border-color: var(--red-edge); }
+    .pill.aligned { background: var(--green-soft); color: var(--green); border-color: var(--green-edge); }
     .pill { display: inline-flex; align-items: center; gap: 5px; max-width: 100%; border: 1px solid var(--line); border-radius: 6px; padding: 4px 7px; font-size: 11px; font-weight: 500; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; background: var(--surface-2); }
     .num-cell { color: var(--text); font-family: var(--font-mono); font-size: 12px; font-weight: 500; font-variant-numeric: tabular-nums; }
     .num-cell.zero { color: var(--faint); opacity: 0.55; }
@@ -1246,9 +1401,11 @@ export function renderMediationCentreRuntime(
     .swatch.divergent, .swatch.flagged { background: var(--red); }
     .swatch.superseded { background: var(--faint); }
     .domain-stack, .mini-stack { display: flex; gap: 4px; overflow: hidden; min-width: 0; }
-    .domain { max-width: 86px; border-radius: 6px; padding: 3px 6px; background: #eef2f7; color: #344054; font-size: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .drawer-scrim { position: fixed; inset: var(--chrome-height) 0 0 0; z-index: 14; background: rgba(15, 23, 42, 0.34); display: none; opacity: 0; transition: opacity 180ms ease; }
-    .drawer { position: fixed; inset: 0 0 0 auto; z-index: 17; width: min(var(--detail-drawer-width), 92vw); height: 100vh; background: var(--paper); border-left: 1px solid var(--line); display: grid; grid-template-rows: auto minmax(0, 1fr); min-width: 0; transform: translateX(100%); transition: transform 240ms cubic-bezier(.2,.7,.2,1), box-shadow 240ms ease; box-shadow: -12px 0 42px -34px rgba(23, 23, 23, 0.45); }
+    .domain { min-width: 0; flex: 0 1 auto; max-width: 100%; border-radius: 6px; padding: 3px 6px; background: var(--domain-bg); color: var(--domain-text); font-size: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .domain-extra { flex: 0 0 auto; color: var(--muted); font-size: 10px; white-space: nowrap; }
+    .table-row .cell button.mutate { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; padding: 7px 6px; }
+    .drawer-scrim { position: fixed; inset: var(--chrome-height) 0 0 0; z-index: 14; background: var(--scrim); display: none; opacity: 0; transition: opacity 180ms ease; }
+    .drawer { position: fixed; inset: 0 0 0 auto; z-index: 17; width: min(var(--detail-drawer-width), 92vw); height: 100vh; background: var(--paper); border-left: 1px solid var(--line); display: grid; grid-template-rows: auto minmax(0, 1fr); min-width: 0; transform: translateX(100%); transition: transform 240ms cubic-bezier(.2,.7,.2,1), box-shadow 240ms ease; box-shadow: -12px 0 42px -34px var(--drawer-shadow); }
     .drawer::before { content: ""; position: absolute; left: 0; top: var(--chrome-height); bottom: 0; width: 0; background: transparent; transition: width 180ms ease; }
     .drawer.bucket-needs::before { width: 3px; background: var(--red); }
     .drawer.bucket-active::before { width: 3px; background: var(--green); }
@@ -1261,7 +1418,7 @@ export function renderMediationCentreRuntime(
     .drawer-tabs { min-width: 0; display: flex; flex-wrap: nowrap; gap: 5px; overflow-x: auto; padding: 2px 0; scrollbar-width: none; }
     .drawer-tabs::-webkit-scrollbar { display: none; }
     .drawer-tabs .tab { flex: 0 0 auto; border-radius: 999px; background: transparent; color: var(--muted); padding: 6px 10px; font-family: var(--font-mono); font-size: 11px; font-weight: 500; }
-    .drawer-tabs .tab.active { color: var(--berry); border-color: rgba(157, 60, 96, 0.28); background: var(--berry-soft); }
+    .drawer-tabs .tab.active { color: var(--berry); border-color: var(--berry-edge); background: var(--berry-soft); }
     .drawer-brand { border-left: 1px solid var(--line); padding-left: 12px; }
     .drawer-summary { display: grid; gap: 10px; min-width: 0; }
     .drawer-head .drawer-summary { padding: 14px 15px 12px; }
@@ -1281,14 +1438,14 @@ export function renderMediationCentreRuntime(
     .interp-card strong, .event-card strong { font-weight: 500; }
     .interp-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-width: 0; }
     .interp-controls { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
-    .composer { display: grid; gap: 8px; background: #fbfcfe; }
+    .composer { display: grid; gap: 8px; background: var(--inset); }
     .button-row { display: flex; gap: 6px; flex-wrap: wrap; }
     .event-card { border-left: 3px solid var(--blue); display: grid; gap: 3px; }
     body.modal-open { overflow: hidden; }
     .modal-layer { position: fixed; inset: 0; z-index: 20; display: none; place-items: center; padding: 18px; }
     .modal-layer.open { display: grid; }
-    .modal-backdrop { position: absolute; inset: 0; background: rgba(15, 23, 42, 0.34); backdrop-filter: blur(7px); }
-    .modal-card { position: relative; width: min(680px, calc(100vw - 32px)); max-height: min(760px, calc(100vh - 32px)); overflow: auto; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); box-shadow: 0 22px 70px rgba(15, 23, 42, 0.22); }
+    .modal-backdrop { position: absolute; inset: 0; background: var(--scrim); backdrop-filter: blur(7px); }
+    .modal-card { position: relative; width: min(680px, calc(100vw - 32px)); max-height: min(760px, calc(100vh - 32px)); overflow: auto; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); box-shadow: 0 22px 70px var(--modal-shadow); }
     .modal-head { padding: 16px 18px; border-bottom: 1px solid var(--line); display: flex; align-items: start; justify-content: space-between; gap: 12px; }
     .modal-head h2 { margin: 0; font-size: 18px; line-height: 1.2; }
     .modal-head span { display: block; color: var(--muted); font-size: 12px; margin-top: 4px; }
@@ -1300,9 +1457,9 @@ export function renderMediationCentreRuntime(
     .field-row { display: flex; align-items: center; gap: 8px; }
     .field-meta, .modal-error { font-size: 11px; line-height: 1.35; }
     .field-meta { color: var(--muted); }
-    .modal-error { color: var(--red); border: 1px solid rgba(209, 76, 66, 0.34); background: var(--red-soft); border-radius: 6px; padding: 8px 9px; }
+    .modal-error { color: var(--red); border: 1px solid var(--red-edge); background: var(--red-soft); border-radius: 6px; padding: 8px 9px; }
     .modal-foot { padding: 12px 18px 16px; border-top: 1px solid var(--line); display: flex; justify-content: flex-end; gap: 8px; flex-wrap: wrap; }
-    .message { position: fixed; left: 16px; bottom: 16px; max-width: 620px; z-index: 19; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); box-shadow: 0 12px 30px var(--shadow); padding: 10px 12px; font-size: 12px; color: var(--text); display: none; opacity: 0; transform: translateY(8px); }
+    .message { position: fixed; left: 16px; bottom: 16px; max-width: 620px; z-index: 21; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); box-shadow: 0 12px 30px var(--shadow); padding: 10px 12px; font-size: 12px; color: var(--text); display: none; opacity: 0; transform: translateY(8px); }
     .message button { margin-left: 10px; padding: 5px 8px; }
     .message.show { display: block; opacity: 1; transform: translateY(0); }
     @supports (transition-behavior: allow-discrete) {
@@ -1312,7 +1469,7 @@ export function renderMediationCentreRuntime(
       }
     }
     @supports (selector(:has(*))) {
-      .group:has(.table-row.selected) .group-head { background: linear-gradient(90deg, var(--blue-soft), #fbfcfe 42%); }
+      .group:has(.table-row.selected) .group-head { background: linear-gradient(90deg, var(--blue-soft), var(--inset) 42%); }
     }
     @supports (animation-timeline: view()) {
       @media (prefers-reduced-motion: no-preference) {
@@ -1341,7 +1498,7 @@ export function renderMediationCentreRuntime(
       body.detail-open #create-intent-button { display: none; }
       body.detail-open .toolbar .brand-lockup { display: none; }
       .live-stripe { position: sticky; top: var(--chrome-height); z-index: 9; }
-      .state-strip { position: sticky; top: calc(var(--chrome-height) + var(--mode-height)); z-index: 8; box-shadow: 0 1px 0 var(--line), 0 12px 24px rgba(15, 23, 42, 0.04); }
+      .state-strip { position: sticky; top: calc(var(--chrome-height) + var(--mode-height)); z-index: 8; box-shadow: 0 1px 0 var(--line), 0 12px 24px var(--card-shadow); }
     }
     @container main (max-width: 820px) {
       .toolbar-actions { min-width: 0; }
@@ -1366,12 +1523,26 @@ export function renderMediationCentreRuntime(
       .toolbar-actions { width: 100%; min-width: 0; flex-wrap: wrap; }
       .toolbar-actions .search-wrap { flex: 1 0 100%; }
       .toolbar-actions button { flex: 1 1 130px; }
+      .toolbar-actions button.icon { flex: 0 0 auto; }
       .brand-lockup { justify-items: start; border-left: 0; border-top: 1px solid var(--line); padding: 8px 0 0; width: 100%; }
-      .table { min-width: 0; }
-      .table-row, .table-head { grid-template-columns: 24px minmax(160px, 1fr) 74px 86px 68px; }
+      .table { min-width: 0; overflow-x: auto; }
+      .table-row, .table-head { grid-template-columns: 24px minmax(160px, 1fr) 104px 112px 112px; min-width: 512px; }
       .table-head div:nth-child(n+6), .table-row .cell:nth-child(n+6) { display: none; }
       .form-grid { grid-template-columns: 1fr; }
       .message { left: 16px; right: 16px; }
+    }
+    @media (max-width: 480px) {
+      .toolbar { padding: 10px 12px; gap: 8px; }
+      .toolbar > * { min-width: 0; max-width: 100%; }
+      .title-block h1 { font-size: 18px; }
+      .toolbar-actions { flex-wrap: wrap; min-width: 0; }
+      .toolbar-actions button { flex: 1 1 auto; min-width: 0; }
+      .search-wrap { min-width: 0; }
+      .brand-lockup { min-width: 0; }
+      .live-stripe { white-space: normal; padding: 5px 12px; }
+      .state-strip { padding: 10px 12px; }
+      .rail-meta { display: none; }
+      .board-wrap { padding: 12px 12px 20px; }
     }
   </style>
 </head>
@@ -1387,8 +1558,9 @@ export function renderMediationCentreRuntime(
         <div class="toolbar-actions">
           <div class="search-wrap"><span>/</span><input id="search" type="search" placeholder="Search intents, reports, events"></div>
           <button class="ghost" id="refresh-button">Refresh</button>
+          <button class="ghost icon" id="theme-toggle-button" data-act="toggle-theme" aria-label="Toggle color theme" title="Toggle color theme">&#9789;</button>
           <button class="primary" id="create-intent-button" data-act="open-create-intent">Create Intent</button>
-          <div class="brand-lockup" aria-label="CML"><strong>CML</strong><span>governance</span></div>
+          <div class="brand-lockup" aria-label="CML"><strong>CML</strong></div>
         </div>
       </header>
       <div class="live-stripe" id="live-stripe"></div>
@@ -1411,6 +1583,7 @@ export function renderMediationCentreRuntime(
     let query = "";
     let statusFilter = "all";
     let workspaceView = "home";
+    let boardView = "home";
     let detailOpen = false;
     const collapsedGroups = new Set();
     let intentModalOpen = false;
@@ -1419,6 +1592,8 @@ export function renderMediationCentreRuntime(
     let intentDraft = { headline: "", body: "", status: "draft", parentId: "", addressedTo: "" };
     let messageTimer = null;
     let pendingUndo = null;
+    let supersedeTargetId = null;
+    let armedRelease = null;
 
     const $ = (id) => document.getElementById(id);
     const esc = (value) => String(value == null ? "" : value).replace(/[&<>"]/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[ch]));
@@ -1433,12 +1608,33 @@ export function renderMediationCentreRuntime(
     const intentCode = (intent) => "INTENT-" + intent.id;
     const interpCode = (interp) => "INT-" + interp.id;
     const reportCode = (report) => "RPT-" + report.id;
+    const plural = (count, one, many) => count + " " + (Number(count) === 1 ? one : (many || one + "s"));
     const dateLabel = (value) => {
       if (!value) return "No event";
       const date = new Date(value);
       if (Number.isNaN(date.getTime())) return "No event";
       return date.toLocaleDateString(undefined, { month: "short", day: "numeric" }) + " " + date.toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit" });
     };
+
+    const storedTheme = () => {
+      try { return localStorage.getItem("cml-theme"); } catch { return null; }
+    };
+
+    function syncThemeToggle() {
+      const button = $("theme-toggle-button");
+      if (!button) return;
+      const dark = document.documentElement.dataset.theme === "dark";
+      button.textContent = dark ? String.fromCharCode(9728) : String.fromCharCode(9789);
+      button.setAttribute("aria-pressed", String(dark));
+    }
+
+    function setTheme(theme, persist) {
+      document.documentElement.dataset.theme = theme === "dark" ? "dark" : "light";
+      if (persist) {
+        try { localStorage.setItem("cml-theme", theme === "dark" ? "dark" : "light"); } catch {}
+      }
+      syncThemeToggle();
+    }
 
     function showMessage(text, undo) {
       const node = $("message");
@@ -1449,7 +1645,7 @@ export function renderMediationCentreRuntime(
       messageTimer = setTimeout(() => {
         node.classList.remove("show");
         pendingUndo = null;
-      }, undo ? 10000 : 4200);
+      }, undo ? 8000 : 4200);
     }
 
     async function api(path, options = {}) {
@@ -1510,10 +1706,17 @@ export function renderMediationCentreRuntime(
 
     function intentEvents(intent) {
       const interps = new Set(intentInterpretations(intent).map((item) => Number(item.id)));
+      const actions = new Set((state && state.actions ? state.actions : []).filter((action) => Number(action.intentId) === Number(intent.id)).map((action) => Number(action.id)));
+      const reports = new Set(intentReports(intent).map((report) => Number(report.id)));
       return (state && state.events ? state.events : []).filter((event) =>
         (event.entityTable === "intents" && Number(event.entityId) === Number(intent.id)) ||
-        (event.entityTable === "interpretations" && interps.has(Number(event.entityId)))
-      ).sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+        (event.entityTable === "interpretations" && interps.has(Number(event.entityId))) ||
+        (event.entityTable === "actions" && actions.has(Number(event.entityId))) ||
+        (event.entityTable === "reports" && reports.has(Number(event.entityId)))
+      ).sort((a, b) => {
+        const delta = new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+        return delta !== 0 ? delta : Number(b.id) - Number(a.id);
+      });
     }
 
     function hasMediationNeed(intent) {
@@ -1603,14 +1806,6 @@ export function renderMediationCentreRuntime(
       menu.innerHTML = viewHtml;
     }
 
-    function renderRail() {
-      if (!$("rail-footer")) return;
-      const actor = state && state.actor;
-      const initials = actor ? actor.name.split(/[-_\\s]+/).map((part) => part[0]).join("").slice(0, 2).toUpperCase() : "--";
-      $("rail-footer").innerHTML = '<div class="actor-chip"><span class="avatar">' + esc(initials) + '</span><span>' + esc(actor ? actor.name : "No actor configured") + '</span></div>' +
-        '<div>' + esc(actor ? actor.defaultScope : "Writes disabled until actor is set") + '</div>';
-    }
-
     function renderStateStrip() {
       const summary = state && state.summary ? state.summary : {};
       const statusClass = setupError ? "error" : canWrite() ? "ok" : "warn";
@@ -1649,7 +1844,7 @@ export function renderMediationCentreRuntime(
     function renderGroup(group) {
       const collapsed = collapsedGroups.has(group.key);
       return '<section class="group ' + (collapsed ? "collapsed" : "") + '" data-group="' + group.key + '">' +
-        '<header class="group-head"><span class="group-bar ' + group.key + '"></span><div class="group-title"><button class="icon ghost" data-act="toggle-group" data-group="' + group.key + '" aria-expanded="' + (!collapsed) + '" aria-label="' + (collapsed ? "Expand " : "Collapse ") + esc(group.title) + '">' + (collapsed ? ">" : "v") + '</button>' + esc(group.title) + '</div><span class="group-count">' + group.items.length + ' items</span></header>' +
+        '<header class="group-head"><span class="group-bar ' + group.key + '"></span><div class="group-title"><button class="icon ghost" data-act="toggle-group" data-group="' + group.key + '" aria-expanded="' + (!collapsed) + '" aria-label="' + (collapsed ? "Expand " : "Collapse ") + esc(group.title) + '">' + (collapsed ? ">" : "v") + '</button>' + esc(group.title) + '</div><span class="group-count">' + plural(group.items.length, "item") + '</span></header>' +
         (collapsed ? "" : '<div class="table">' +
           '<div class="table-head"><div></div><div>Intent</div><div>Status</div><div>Alignment</div><div>Owner</div><div>Domain</div><div title="Interpretations on file">Int</div><div>Rpt</div><div>Action</div><div>Last</div></div>' +
           (group.items.length ? group.items.map(renderIntentRow).join("") : '<div class="table-row"><div class="cell"></div><div class="cell" style="grid-column: span 9;"><span class="tiny">No items in this group.</span></div></div>') +
@@ -1676,8 +1871,8 @@ export function renderMediationCentreRuntime(
         '<div class="cell"><div class="intent-title"><span class="id">' + intentCode(intent) + ' / ' + esc(claimLabel) + '</span><strong>' + esc(short(intent.description, 96)) + '</strong>' + (hasMediationNeed(intent) && interps[0] ? '<span class="tiny">' + esc(short(interps[0].title, 88)) + '</span>' : '') + '</div></div>' +
         '<div class="cell">' + statusSelect("intent", intent.id, intent.status) + '</div>' +
         '<div class="cell"><span class="pill ' + tone + '"><span class="swatch ' + tone + '"></span>' + tone + '</span></div>' +
-        '<div class="cell">' + (claim ? '<button class="mutate" data-act="release-claim" data-id="' + claim.id + '" title="' + esc(claimLabel) + '">' + esc(short(claimLabel, 12)) + '</button>' : '<button class="mutate" data-act="claim" data-id="' + intent.id + '"' + (!canWrite() ? " disabled" : "") + '>Claim</button>') + '</div>' +
-        '<div class="cell"><span class="domain" title="' + esc(firstDomain + extraDomains) + '">' + esc(short(firstDomain, 16) + extraDomains) + '</span></div>' +
+        '<div class="cell">' + (claim ? '<button class="mutate" data-act="release-claim" data-id="' + claim.id + '" aria-live="polite" title="' + esc(claimLabel) + ' - click, then confirm to release">' + esc(short(claimLabel, 18)) + '</button>' : '<button class="mutate" data-act="claim" data-id="' + intent.id + '"' + (!canWrite() ? " disabled" : "") + '>Claim</button>') + '</div>' +
+        '<div class="cell"><span class="domain" title="' + esc(firstDomain + extraDomains) + '">' + esc(short(firstDomain, 14)) + '</span>' + (extraDomains ? '<span class="domain-extra">' + esc(extraDomains) + '</span>' : '') + '</div>' +
         '<div class="cell center"><span class="num-cell ' + (interps.length ? "" : "zero") + '">' + interps.length + '</span></div>' +
         '<div class="cell center"><span class="num-cell ' + (reports.length ? "" : "zero") + '">' + reports.length + '</span></div>' +
         '<div class="cell"><button data-act="next-action" data-id="' + intent.id + '">' + esc(rowActionLabel(intent)) + '</button></div>' +
@@ -1712,26 +1907,28 @@ export function renderMediationCentreRuntime(
       drawer.setAttribute("aria-hidden", String(!detailOpen || !intent));
       if (!intent) {
         drawer.innerHTML =
-          '<header class="drawer-head"><div class="drawer-rail"><button class="drawer-close" data-act="close-detail-drawer" aria-label="Close detail pane">x</button><nav class="drawer-tabs" role="tablist" aria-label="Detail sections"></nav><div class="brand-lockup drawer-brand" aria-label="CML"><strong>CML</strong><span>governance</span></div></div><div class="drawer-summary"><div class="drawer-title"><span class="id">No selection</span><h2>Select an intent</h2></div></div></header>' +
+          '<header class="drawer-head"><div class="drawer-rail"><button class="drawer-close" data-act="close-detail-drawer" aria-label="Close detail pane">x</button><nav class="drawer-tabs" role="tablist" aria-label="Detail sections"></nav><div class="brand-lockup drawer-brand" aria-label="CML"><strong>CML</strong></div></div><div class="drawer-summary"><div class="drawer-title"><span class="id">No selection</span><h2>Select an intent</h2></div></div></header>' +
           '<div class="drawer-body"><section class="empty-board"><strong>Mediation drawer</strong><span>Pick a row to inspect interpretations, events, and governed write controls.</span></section></div>';
         return;
       }
       const claims = intentClaims(intent);
       const claim = claims[0];
       const claimButton = claim
-        ? '<button class="mutate" data-act="release-claim" data-id="' + claim.id + '"' + (!canWrite() ? " disabled" : "") + '>Release Claim</button>'
+        ? '<button class="mutate" data-act="release-claim" data-id="' + claim.id + '" aria-live="polite" title="Click, then confirm to release"' + (!canWrite() ? " disabled" : "") + '>Release Claim</button>'
         : '<button class="mutate" data-act="claim" data-id="' + intent.id + '"' + (!canWrite() ? " disabled" : "") + '>Claim</button>';
+      const actionable = intent.status === "active";
+      const inactiveHint = ' disabled aria-disabled="true" title="Only active intents accept actions"';
       const tabLabels = { mediate: "Mediate", updates: "Updates", events: "Trail" };
       drawer.innerHTML =
         '<header class="drawer-head">' +
           '<div class="drawer-rail">' +
             '<button class="drawer-close" data-act="close-detail-drawer" aria-label="Close detail pane">x</button>' +
             '<nav class="drawer-tabs" role="tablist" aria-label="Detail sections">' + ["mediate", "updates", "events"].map((tab) => '<button class="tab ' + (drawerTab === tab ? "active" : "") + '" data-act="drawer-tab" data-tab="' + tab + '" role="tab" aria-selected="' + (drawerTab === tab) + '">' + tabLabels[tab] + '</button>').join("") + '</nav>' +
-            '<div class="brand-lockup drawer-brand" aria-label="CML"><strong>CML</strong><span>governance</span></div>' +
+            '<div class="brand-lockup drawer-brand" aria-label="CML"><strong>CML</strong></div>' +
           '</div>' +
           '<div class="drawer-summary">' +
-            '<div class="drawer-title"><span class="drawer-breadcrumb">' + esc(bucket.title) + ' / ' + intentCode(intent) + '</span><h2>' + esc(short(intent.description, 120)) + '</h2></div>' +
-            '<div class="drawer-actions">' + statusSelect("intent", intent.id, intent.status) + claimButton + '<button data-act="focus-composer">Log Action</button><button data-act="focus-report">Create Report</button></div>' +
+            '<div class="drawer-title"><span class="drawer-breadcrumb">' + esc(bucket.title) + ' / ' + intentCode(intent) + '</span><h2>' + esc(intent.description) + '</h2></div>' +
+            '<div class="drawer-actions">' + statusSelect("intent", intent.id, intent.status) + claimButton + '<button data-act="focus-composer"' + (actionable ? '' : inactiveHint) + '>Log Action</button><button data-act="focus-report">Create Report</button></div>' +
           '</div>' +
         '</header>' +
         '<div class="drawer-body">' + (drawerTab === "mediate" ? renderMediateTab(intent) : drawerTab === "updates" ? renderUpdatesTab(intent) : renderEventsTab(intent)) + '</div>';
@@ -1742,10 +1939,10 @@ export function renderMediationCentreRuntime(
       const reports = intentReports(intent);
       const tone = alignmentTone(intent);
       const unresolved = hasMediationNeed(intent)
-        ? interps.filter((item) => item.alignment !== "aligned" || item.status === "flagged" || item.status === "clarifying").length + " open interpretation signals"
+        ? plural(interps.filter((item) => item.alignment !== "aligned" || item.status === "flagged" || item.status === "clarifying").length, "open interpretation signal")
         : "No active divergence signal";
       return '<section class="detail-grid">' +
-          detailBlock("Observed", "Status " + intent.status + ", version " + intent.version + ", " + interps.length + " interpretations, " + reports.length + " reports.") +
+          detailBlock("Observed", "Status " + intent.status + ", version " + intent.version + ", " + plural(interps.length, "interpretation") + ", " + plural(reports.length, "report") + ".") +
           detailBlock("Inferred", "Next useful move: " + nextAction(intent) + ". Current alignment reads " + tone + ".") +
           detailBlock("Unresolved", unresolved) +
           detailBlock("Proposed", "Use the composer below for a governed update, action, or report.") +
@@ -1767,20 +1964,44 @@ export function renderMediationCentreRuntime(
       const domain = domainsById().get(Number(interp.domainId));
       return '<article class="interp-card">' +
         '<div class="interp-top"><div><span class="id">' + interpCode(interp) + '</span><div class="tiny">' + esc(domain ? domain.name : "domain " + interp.domainId) + '</div></div><button class="mutate" data-act="supersede" data-id="' + interp.id + '"' + (!canWrite() ? " disabled" : "") + '>Supersede</button></div>' +
-        '<strong style="font-size:13px;line-height:1.3;font-weight:500;">' + esc(short(interp.title, 120)) + '</strong>' +
-        (interp.scopeAssumption ? '<div class="tiny">' + esc(short(interp.scopeAssumption, 140)) + '</div>' : '') +
+        '<strong style="font-size:13px;line-height:1.3;font-weight:500;">' + esc(interp.title) + '</strong>' +
+        (interp.scopeAssumption ? '<div class="tiny">' + esc(interp.scopeAssumption) + '</div>' : '') +
         '<div class="interp-controls">' + statusSelect("interpretation", interp.id, interp.status) + alignmentSelect(interp.id, interp.alignment) + '</div>' +
       '</article>';
     }
 
+    function supersedeTarget(intent) {
+      if (supersedeTargetId == null) return null;
+      const target = (state && state.interpretations ? state.interpretations : []).find((item) => Number(item.id) === Number(supersedeTargetId));
+      if (!target || Number(target.intentId) !== Number(intent.id) || target.status === "superseded") {
+        supersedeTargetId = null;
+        return null;
+      }
+      return target;
+    }
+
     function renderComposer(intent) {
+      const target = supersedeTarget(intent);
+      if (target) {
+        return '<section class="composer" id="composer">' +
+          '<div class="section-title"><span>Supersede ' + interpCode(target) + '</span><span class="tiny">replaces this interpretation</span></div>' +
+          '<input id="write-title" placeholder="Replacement headline" value="' + esc(target.title) + '" ' + (!canWrite() ? "disabled" : "") + '>' +
+          '<textarea id="write-body" placeholder="Reason for supersession (required)" ' + (!canWrite() ? "disabled" : "") + '></textarea>' +
+          '<div class="button-row">' +
+            '<button class="primary" data-act="submit-supersede" data-id="' + target.id + '"' + (!canWrite() ? " disabled" : "") + '>Supersede Interpretation</button>' +
+            '<button data-act="cancel-supersede">Cancel</button>' +
+          '</div>' +
+          (!canWrite() ? '<div class="tiny">Set CML_ACTOR or CML_ACTOR_ID to enable governed writes.</div>' : '') +
+        '</section>';
+      }
+      const actionable = intent.status === "active";
       return '<section class="composer" id="composer">' +
         '<div class="section-title"><span>Divergence Composer</span><span class="tiny">write-through</span></div>' +
         '<input id="write-title" placeholder="Reason, action outcome, or report title" ' + (!canWrite() ? "disabled" : "") + '>' +
         '<textarea id="write-body" placeholder="Write the update, action description, or report summary" ' + (!canWrite() ? "disabled" : "") + '></textarea>' +
         '<div class="button-row">' +
           '<button class="mutate" data-act="update-intent" data-id="' + intent.id + '"' + (!canWrite() ? " disabled" : "") + '>Update Intent</button>' +
-          '<button class="primary" data-act="log-action" data-id="' + intent.id + '"' + (!canWrite() ? " disabled" : "") + '>Log Action</button>' +
+          '<button class="primary" data-act="log-action" data-id="' + intent.id + '"' + (!canWrite() || !actionable ? " disabled" : "") + (actionable ? '' : ' aria-disabled="true" title="Only active intents accept actions"') + '>Log Action</button>' +
           '<button data-act="create-report" data-id="' + intent.id + '"' + (!canWrite() ? " disabled" : "") + '>Create Report</button>' +
         '</div>' +
         (!canWrite() ? '<div class="tiny">Set CML_ACTOR or CML_ACTOR_ID to enable governed writes.</div>' : '') +
@@ -1802,16 +2023,19 @@ export function renderMediationCentreRuntime(
       const reports = intentReports(intent);
       const actions = (state && state.actions ? state.actions : []).filter((action) => Number(action.intentId) === Number(intent.id));
       const items = [
-        ...reports.map((item) => ({ kind: "report", at: item.createdAt, html: '<article class="event-card"><span class="id">' + reportCode(item) + '</span><strong>' + esc(item.title) + '</strong><span class="tiny">' + esc(short(item.summary, 160)) + '</span></article>' })),
-        ...actions.map((item) => ({ kind: "action", at: item.createdAt, html: '<article class="event-card"><span class="id">ACTION-' + item.id + '</span><strong>' + esc(short(item.description, 120)) + '</strong><span class="tiny">' + esc(short(item.outcome || "", 160)) + '</span></article>' })),
-      ].sort((a, b) => new Date(b.at).getTime() - new Date(a.at).getTime());
+        ...reports.map((item) => ({ kind: "report", at: item.createdAt, id: Number(item.id), html: '<article class="event-card"><span class="id">' + reportCode(item) + '</span><strong>' + esc(item.title) + '</strong><span class="tiny">' + esc(item.summary) + '</span></article>' })),
+        ...actions.map((item) => ({ kind: "action", at: item.createdAt, id: Number(item.id), html: '<article class="event-card"><span class="id">ACTION-' + item.id + '</span><strong>' + esc(item.description) + '</strong><span class="tiny">' + esc(item.outcome || "") + '</span></article>' })),
+      ].sort((a, b) => {
+        const delta = new Date(b.at).getTime() - new Date(a.at).getTime();
+        return delta !== 0 ? delta : b.id - a.id;
+      });
       return items.length ? items.map((item) => item.html).join("") : '<section class="empty-board"><strong>No updates linked to this intent.</strong><span>Use Log Action or Create Report from Mediate.</span></section>';
     }
 
     function renderEventsTab(intent) {
       const events = intentEvents(intent);
       return events.length ? events.map((event) =>
-        '<article class="event-card"><span class="id">EVT-' + event.id + '</span><strong>' + esc(event.eventType) + '</strong><span class="tiny">' + esc(event.entityTable + " #" + event.entityId + " / " + dateLabel(event.createdAt)) + '</span>' + (event.reason ? '<span class="tiny">' + esc(short(event.reason, 140)) + '</span>' : '') + '</article>'
+        '<article class="event-card"><span class="id">EVT-' + event.id + '</span><strong>' + esc(event.eventType) + '</strong><span class="tiny">' + esc(event.entityTable + " #" + event.entityId + " / " + dateLabel(event.createdAt)) + '</span>' + (event.reason ? '<span class="tiny">' + esc(event.reason) + '</span>' : '') + '</article>'
       ).join("") : '<section class="empty-board"><strong>No trail for this intent yet.</strong><span>Focus and write actions will appear here.</span></section>';
     }
 
@@ -1906,28 +2130,35 @@ export function renderMediationCentreRuntime(
       };
       if (intentDraft.parentId) createBody.parentId = Number(intentDraft.parentId);
       if (intentDraft.addressedTo) createBody.addressedTo = Number(intentDraft.addressedTo);
+      let bodySaveFailed = false;
       const result = await writeAndRefresh(async () => {
         const created = await api("/api/intents", { body: createBody });
         const createdId = Number(created && created.data && created.data.id);
         if (createdId && intentDraft.body) {
-          await api("/api/intents/" + createdId, {
-            method: "PATCH",
-            body: { reason: "Mediation Centre intake body", resolutionNotes: intentDraft.body },
-          });
+          try {
+            await api("/api/intents/" + createdId, {
+              method: "PATCH",
+              body: { reason: "Mediation Centre intake body", resolutionNotes: intentDraft.body },
+            });
+          } catch {
+            bodySaveFailed = true;
+          }
         }
         if (createdId) {
           selectedIntentId = createdId;
           workspaceView = "intents";
+          boardView = "intents";
           statusFilter = "all";
           drawerTab = "mediate";
           detailOpen = true;
         }
         return created;
-      });
+      }, "Intent created.");
       intentModalBusy = false;
       if (result) {
         intentModalOpen = false;
         intentDraft = { headline: "", body: "", status: "draft", parentId: "", addressedTo: "" };
+        if (bodySaveFailed) showMessage("Intent created, but the body could not be saved \\u2014 edit it from the drawer.");
       } else {
         intentModalError = "Create Intent did not complete.";
       }
@@ -1939,8 +2170,21 @@ export function renderMediationCentreRuntime(
       if (workspaceView === "reports") drawerTab = "updates";
       else if (workspaceView === "events") drawerTab = "events";
       else drawerTab = "mediate";
-      if (workspaceView === "home" || workspaceView === "intents" || workspaceView === "mediation") statusFilter = "all";
+      if (workspaceView === "home" || workspaceView === "intents" || workspaceView === "mediation") {
+        boardView = workspaceView;
+        statusFilter = "all";
+      }
       if ((workspaceView === "reports" || workspaceView === "events") && selectedIntent()) detailOpen = true;
+      render();
+    }
+
+    function closeDetailDrawer() {
+      detailOpen = false;
+      supersedeTargetId = null;
+      if (workspaceView === "reports" || workspaceView === "events") {
+        workspaceView = boardView;
+        drawerTab = "mediate";
+      }
       render();
     }
 
@@ -1953,10 +2197,29 @@ export function renderMediationCentreRuntime(
     }
 
     async function selectIntent(id) {
+      if (Number(id) !== Number(selectedIntentId)) supersedeTargetId = null;
       selectedIntentId = Number(id);
       detailOpen = true;
       await emitFocus(id);
       render();
+    }
+
+    function disarmRelease() {
+      if (!armedRelease) return;
+      clearTimeout(armedRelease.timer);
+      if (armedRelease.node && armedRelease.node.isConnected) armedRelease.node.textContent = armedRelease.label;
+      armedRelease = null;
+    }
+
+    function armRelease(button, claimId) {
+      disarmRelease();
+      armedRelease = {
+        id: String(claimId),
+        node: button,
+        label: button.textContent,
+        timer: setTimeout(disarmRelease, 2500),
+      };
+      button.textContent = "release?";
     }
 
     async function writeAndRefresh(action, message, undo) {
@@ -1981,7 +2244,6 @@ export function renderMediationCentreRuntime(
       if (!selectedIntent()) detailOpen = false;
       document.body.classList.toggle("detail-open", detailOpen && Boolean(selectedIntent()));
       renderNav();
-      renderRail();
       renderStateStrip();
       renderBoard();
       renderDrawer();
@@ -1990,6 +2252,7 @@ export function renderMediationCentreRuntime(
 
     document.addEventListener("click", async (event) => {
       const target = event.target.closest("[data-act]");
+      if (armedRelease && (!target || target.dataset.act !== "release-claim" || String(target.dataset.id) !== armedRelease.id)) disarmRelease();
       if (!target) return;
       const act = target.dataset.act;
       event.stopPropagation();
@@ -2015,8 +2278,9 @@ export function renderMediationCentreRuntime(
           showMessage(String(error && error.message ? error.message : error));
         }
       } else if (act === "close-detail-drawer") {
-        detailOpen = false;
-        render();
+        closeDetailDrawer();
+      } else if (act === "toggle-theme") {
+        setTheme(document.documentElement.dataset.theme === "dark" ? "light" : "dark", true);
       } else if (act === "nav-view") {
         setWorkspaceView(target.dataset.navView);
       } else if (act === "toggle-group") {
@@ -2033,37 +2297,56 @@ export function renderMediationCentreRuntime(
         drawerTab = target.dataset.tab || "mediate";
         render();
       } else if (act === "claim") {
-        await writeAndRefresh(() => api("/api/claims", { body: { entityTable: "intents", entityId: Number(target.dataset.id), note: "Claimed from Mediation Centre" } }));
+        await writeAndRefresh(() => api("/api/claims", { body: { entityTable: "intents", entityId: Number(target.dataset.id), note: "Claimed from Mediation Centre" } }), "Claim created.");
       } else if (act === "release-claim") {
-        await writeAndRefresh(() => api("/api/claims/" + target.dataset.id + "/release", { body: { reason: "Released from Mediation Centre" } }));
+        if (!armedRelease || armedRelease.id !== String(target.dataset.id)) {
+          armRelease(target, target.dataset.id);
+          return;
+        }
+        disarmRelease();
+        await writeAndRefresh(() => api("/api/claims/" + target.dataset.id + "/release", { body: { reason: "Released from Mediation Centre" } }), "Claim released.");
       } else if (act === "update-intent") {
         const values = composerValues();
-        await writeAndRefresh(() => api("/api/intents/" + target.dataset.id, { method: "PATCH", body: { reason: values.title || "Mediation Centre update", resolutionNotes: values.body || undefined } }));
+        await writeAndRefresh(() => api("/api/intents/" + target.dataset.id, { method: "PATCH", body: { reason: values.title || "Mediation Centre update", resolutionNotes: values.body || undefined } }), "Intent updated.");
       } else if (act === "log-action") {
         const values = composerValues();
         if (!values.body && !values.title) { showMessage("Log Action needs a description."); return; }
-        await writeAndRefresh(() => api("/api/actions", { body: { intentId: Number(target.dataset.id), description: values.body || values.title, outcome: values.title || undefined } }));
+        await writeAndRefresh(() => api("/api/actions", { body: { intentId: Number(target.dataset.id), description: values.body || values.title, outcome: values.title || undefined } }), "Action logged.");
       } else if (act === "create-report") {
         const values = composerValues();
         if (!values.title || !values.body) { showMessage("Create Report needs a title/reason and summary."); return; }
-        await writeAndRefresh(() => api("/api/reports", { body: { intentId: Number(target.dataset.id), kind: "mediation-centre-note", title: values.title, summary: values.body } }));
+        await writeAndRefresh(() => api("/api/reports", { body: { intentId: Number(target.dataset.id), kind: "mediation-centre-note", title: values.title, summary: values.body } }), "Report created.");
       } else if (act === "create-interpretation") {
         const title = $("new-interpretation-title").value.trim();
         const scope = $("new-interpretation-scope").value.trim();
         const domainId = Number($("new-interpretation-domain").value);
         if (!title || !domainId) { showMessage("Add Interpretation needs a domain and title."); return; }
-        await writeAndRefresh(() => api("/api/interpretations", { body: { intentId: Number(target.dataset.id), domainId, title, scopeAssumption: scope || undefined, status: "proposed", alignment: "uncertain" } }));
+        await writeAndRefresh(() => api("/api/interpretations", { body: { intentId: Number(target.dataset.id), domainId, title, scopeAssumption: scope || undefined, status: "proposed", alignment: "uncertain" } }), "Interpretation added.");
       } else if (act === "supersede") {
-        const title = window.prompt("Replacement interpretation title");
-        if (!title) return;
-        const reason = window.prompt("Reason for supersession") || "Superseded from Mediation Centre";
-        await writeAndRefresh(() => api("/api/interpretations/" + target.dataset.id + "/supersede", { body: { newTitle: title, reason, newStatus: "proposed" } }));
+        supersedeTargetId = Number(target.dataset.id);
+        drawerTab = "mediate";
+        render();
+        setTimeout(() => $("write-body") && $("write-body").focus(), 0);
+      } else if (act === "submit-supersede") {
+        const values = composerValues();
+        if (!values.title) { showMessage("Supersede needs a replacement headline."); return; }
+        if (!values.body) { showMessage("Supersede needs a reason."); return; }
+        const ok = await writeAndRefresh(() => api("/api/interpretations/" + target.dataset.id + "/supersede", { body: { newTitle: values.title, reason: values.body, newStatus: "proposed" } }), "Interpretation superseded.");
+        if (ok) {
+          supersedeTargetId = null;
+          render();
+        }
+      } else if (act === "cancel-supersede") {
+        supersedeTargetId = null;
+        render();
       } else if (act === "focus-composer") {
         drawerTab = "mediate";
+        supersedeTargetId = null;
         render();
         setTimeout(() => $("write-body") && $("write-body").focus(), 0);
       } else if (act === "focus-report") {
         drawerTab = "mediate";
+        supersedeTargetId = null;
         render();
         setTimeout(() => $("write-title") && $("write-title").focus(), 0);
       } else if (act === "focus-interpretation") {
@@ -2115,8 +2398,7 @@ export function renderMediationCentreRuntime(
         return;
       } else if (event.key === "Escape" && detailOpen) {
         event.preventDefault();
-        detailOpen = false;
-        render();
+        closeDetailDrawer();
         return;
       }
       if (event.key === "/" && event.target.tagName !== "INPUT" && event.target.tagName !== "TEXTAREA") {
@@ -2127,6 +2409,16 @@ export function renderMediationCentreRuntime(
         submitIntentModal();
       }
     });
+
+    const themeMedia = window.matchMedia ? window.matchMedia("(prefers-color-scheme: dark)") : null;
+    if (themeMedia && themeMedia.addEventListener) {
+      themeMedia.addEventListener("change", (event) => {
+        const stored = storedTheme();
+        if (stored === "dark" || stored === "light") return;
+        setTheme(event.matches ? "dark" : "light", false);
+      });
+    }
+    syncThemeToggle();
 
     if (!state) refreshState();
     else render();
@@ -2294,7 +2586,10 @@ function buildAttention(
     .map((item) => item.intentId && intentMap.has(item.intentId)
       ? { ...item, title: `${item.title} (${truncate(intentMap.get(item.intentId)!.description, 48)})` }
       : item)
-    .sort((a, b) => new Date(b.createdAt ?? 0).getTime() - new Date(a.createdAt ?? 0).getTime())
+    .sort((a, b) => {
+      const delta = new Date(b.createdAt ?? 0).getTime() - new Date(a.createdAt ?? 0).getTime();
+      return delta !== 0 ? delta : b.entityId - a.entityId;
+    })
     .slice(0, 12);
 }
 

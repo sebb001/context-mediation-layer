@@ -1,6 +1,6 @@
 # Context Mediation Layer
 
-Decision governance and correspondence infrastructure for human-AI environments.
+Decision governance and correspondence infrastructure for human-AI environments: a layer that mediates what humans and agents may treat as shared, durable, actionable state.
 
 ## At a glance
 
@@ -14,27 +14,66 @@ The core idea is simple: isolated AI workflows should not remain disconnected
 experiments. They need a shared governance layer that turns acceleration into
 durable shared state rather than faster ambiguity.
 
-To achieve this, CML operationalises a correspondence discipline. In
-philosophy, the correspondence theory of truth holds that a statement is
-true when it accurately describes the world, not when it merely agrees with
-other statements. Agentic environments invert the economics of that
-distinction: generated artefacts can agree with each other indefinitely, at
-almost no visible cost, while quietly detaching from the ground. While a
-plausibly coherent state becomes cheap to produce, the correspondence
-required to anchor it in reality has stayed expensive.
-
-CML addresses this gap. Nothing is promoted on plausibility or even
-coherence alone: declared state is checked against actual state before an
-output is promoted — gated where work is routed through the layer; recorded
-claims carry their falsification conditions as a working discipline; and
-supersession keeps the record when one triggers.
-
 The implementation demonstrates how that layer can work locally, across
 humans, coding agents, hosted chat agents, tools, and knowledge stores,
 without relying on one vendor memory surface or one monolithic agent
 framework.
 
-## Enterprise problem
+![The Mediation Centre: intents, interpretations, alignment, and claims in
+the live store.](assets/mediation-centre-dark.png)
+
+*The Mediation Centre: intents, interpretations, alignment, and claims in the
+live store.*
+
+## Quick start
+
+```sh
+npm ci
+npm run build
+node dist/cli/index.js init --pretty
+node dist/cli/index.js status --pretty
+npm test
+```
+
+`init` writes `cml.config.json`, creates a local SQLite database and vault
+directory, and provisions a default operator, scope, root contract, agent
+actor-type contract, and CLI role binding. Details in
+[Setup and configuration](docs/setup-and-configuration.md).
+
+## Architecture at a glance
+
+The implementation keeps three layers separate:
+
+1. **Governance layer**
+   Owns CML state: intents, interpretations, actions, reports, claims,
+   contracts, actors, roles, sessions, and events.
+
+2. **Runtime layer**
+   Provides execution capability behind interfaces. It may host CLIs, SDKs,
+   MCP adapters, tools, agents, and operator surfaces, but it does not own
+   CML semantics.
+
+3. **Knowledge layer**
+   Supplies context, source material, and local content. It can inform
+   governed state, but it does not become canonical merely because it is
+   useful.
+
+```mermaid
+flowchart TD
+    H[Human operator] --> UI[Operator UI / CLI]
+    A[Coding and domain agents] --> SDK[CLI / SDK]
+    C[Hosted chat and model clients] --> MCP[MCP adapters]
+    UI --> S[CML application service]
+    SDK --> S
+    MCP --> S
+    S --> G[(CML governance store)]
+    G <--> K[(Governed local knowledge store)]
+```
+
+Runtime executes. Knowledge informs. Governance decides what becomes durable,
+actionable state.
+
+## The problem
 
 AI reduces the cost of action. It does not reduce the cost of consequences.
 
@@ -43,11 +82,6 @@ retrieval breaks down. It begins when different humans, agents, tools, and
 sessions each remain locally coherent while the wider environment loses
 shared intent, authority, evidence, ownership, decision history, and
 accountability.
-
-A recalled context fragment may be useful, stale, unsupported, or
-authoritative. A generated report may be plausible but untraceable. A tool
-action may be effective but unclear in mandate. A follow-on agent may inherit
-output without knowing what can safely be assumed.
 
 The deeper failure mode is not divergence but false convergence: hallucinated
 consensus. A generated artefact — a report, a plan, a polished deck — can
@@ -74,10 +108,26 @@ Retrieval can surface relevant material, but it does not decide which source
 is authoritative, which claim is stale, which output is inference, or which
 actor is accountable for a change.
 
-CML treats this as a correspondence problem: not an orchestration gap, but
-a detachment of declared from actual state.
+CML treats this as a correspondence problem: not an orchestration gap, but a
+detachment of declared from actual state. The full argument is in
+[Why correspondence](#why-correspondence) below.
 
 ## What the layer does
+
+Four refusals define the layer:
+
+**Knowledge is not truth. Runtime is not authority. A session is not an
+identity. An output is not durable state.**
+
+A chat transcript can be evidence. A terminal session can produce good work.
+A model can draft an interpretation. But none of those surfaces becomes
+canonical merely by existing. Material becomes durable CML state only when it
+is promoted into the governance store with attribution, provenance, and a
+relevant mandate.
+
+Promotion is a governed write, not a vibe: material enters the store as a
+typed record with attribution, provenance, and a mandate reference; status
+transitions and supersession are recorded operations, not edits.
 
 The layer gives humans and agents a shared correspondence substrate. It
 records what is being attempted, how different actors interpret the work,
@@ -93,18 +143,23 @@ It is deliberately not a personality layer, memory feature, or agent
 framework in the usual sense. It sits underneath those surfaces when several
 of them need to work together.
 
-CML is the correspondence vocabulary. This repository is a runtime that makes
-the vocabulary operational.
-
-The core primitives are:
+The conceptual primitives are:
 
 - **Intent:** what is being attempted.
 - **Interpretation:** what an actor believes the intent means from its
   position.
-- **Action:** what was done.
+- **Authority / Contract:** the rule, role, or mandate under which
+  participation happens.
+- **Evidence:** the material a contribution relies on.
+- **Promotion:** the governed transition from material to durable state.
+- **Supersession:** correction that preserves the record it replaces.
+- **Provenance:** who produced what, from where, under which mandate.
+
+The runtime implements these through concrete entities:
+
+- **Action:** an attributable record of a step taken by an actor.
 - **Report:** a synthesis, handoff, or governed summary.
 - **Claim:** a temporary ownership or active-work signal.
-- **Contract:** the rule, role, or mandate under which participation happens.
 - **Actor:** who or what is accountable for a contribution.
 - **Session:** the execution context that produced a trace.
 - **Event:** the transition trail.
@@ -114,56 +169,9 @@ The governing invariant is:
 > Stable actors own accountability. Sessions are execution context. Only
 > promoted outputs become durable, actionable state.
 
-A chat transcript can be evidence. A terminal session can produce good work.
-A model can draft an interpretation. But none of those surfaces becomes
-canonical merely by existing. Material becomes durable CML state only when it
-is promoted into the governance store with attribution, provenance, and a
-relevant mandate.
-
 The promotion gate exists because generation is cheap and format is
 persuasive: the system deliberately refuses to let production quality confer
 authority that only mandate and review can grant.
-
-## Architecture at a glance
-
-The implementation keeps three layers separate:
-
-1. **Governance layer**
-   Owns CML state: intents, interpretations, actions, reports, claims,
-   contracts, actors, roles, sessions, and events.
-
-2. **Runtime layer**
-   Provides execution capability behind interfaces. It may host CLIs, SDKs,
-   MCP adapters, tools, agents, and operator surfaces, but it does not own
-   CML semantics.
-
-3. **Knowledge layer**
-   Supplies context, source material, and local content. It can inform
-   governed state, but it does not become canonical merely because it is
-   useful.
-
-```text
-Human operator
-  -> operator UI / CLI
-  -> CML application service
-  -> CML governance store
-
-Coding and domain agents
-  -> CLI / SDK
-  -> CML application service
-  -> CML governance store
-
-Hosted chat and model clients
-  -> MCP adapters
-  -> CML application service
-  -> CML governance store
-
-CML governance store
-  <-> governed local knowledge store
-```
-
-Runtime executes. Knowledge informs. Governance decides what becomes
-durable, actionable state.
 
 ## Governance model
 
@@ -248,6 +256,10 @@ durable governed record left behind for the next actor.
 
 ## Current implementation snapshot
 
+<img src="assets/operator-sidebar.png" width="320" align="right"
+alt="The operator sidebar, designed to run alongside an AI assistant during
+governed review sessions.">
+
 This repository is a working prototype and architecture demonstrator, not a
 production platform.
 
@@ -259,7 +271,9 @@ The current implementation includes:
   operations.
 - SDK/API layer over the same service model.
 - MCP stdio/HTTP adapters and a restricted public bridge.
-- Browser-based operator UI for live CML inspection and governed writes.
+- Browser-based operator UI (the Mediation Centre) for live CML inspection
+  and governed writes, plus an operator sidebar designed to run alongside an
+  AI assistant during governed review sessions.
 - Governed local knowledge-store read/write bridge, with mutations requiring
   an intent mandate and logging a CML action.
 - First-order contract registry with active hierarchy, immutable revisions,
@@ -279,6 +293,48 @@ npm run build
 
 The test count is implementation evidence for this snapshot, not a permanent
 API guarantee.
+
+## Why correspondence
+
+CML operationalises a correspondence discipline. In philosophy, the
+correspondence theory of truth holds that a statement is true when it
+accurately describes the world, not when it merely agrees with other
+statements. Agentic environments invert the economics of that distinction:
+generated artefacts can agree with each other indefinitely, at almost no
+visible cost, while quietly detaching from the ground. While a plausibly
+coherent state becomes cheap to produce, the correspondence required to
+anchor it in reality has stayed expensive.
+
+CML addresses this gap. Nothing is promoted on plausibility or even coherence
+alone: declared state is checked against actual state before an output is
+promoted — gated where work is routed through the layer. Recorded claims
+carry their falsification conditions as a working discipline, and
+supersession keeps the record when one triggers.
+
+## Lineage
+
+This work does not stand on its own feet. The shortest honest ledger of
+priors:
+
+- **Correspondence theory of truth** — A statement is true when it describes
+  the world, not when it agrees with other statements. The promotion gate
+  uses this theory as its master criterion.
+- **Karl Popper** — falsifiability as a working field, not a seminar virtue.
+  Claims in the lab carry their refutation conditions in the record;
+  supersession keeps the history when one fires.
+- **Elinor Ostrom** — shared context is a commons. Her design principles for
+  governing commons without a central owner — rules congruent with local
+  conditions, participation in rule-making, accountable monitoring, graduated
+  consequences — are the ancestors of CML's contracts, actors, and gates.
+- **The chariot dialogue (Milinda Pañha)** — "chariot" is a designation on an
+  assembly of parts, with no essence above them. Institutional cognition is
+  used here in exactly that spirit: a composite lens on organisations, never
+  a mind within them.
+- **Heidegger, over his objection** — equipment disappears while it works and
+  becomes visible only in breakdown. CML inverts the sequence deliberately:
+  the act of mediation is made inspectable before breakdown does the
+  revealing. (He would file correspondence itself as derivative of
+  disclosure; the ledger records the disagreement and keeps both.)
 
 ## What this demonstrates
 
@@ -305,21 +361,6 @@ authority, shared evidence, and durable provenance.
 Operational evidence from the lab where this layer was built and first used
 — six governance cases with raw records — is published separately:
 [cml-evidence-pack](https://github.com/sebb001/cml-evidence-pack).
-
-## Quick start
-
-```sh
-npm ci
-npm run build
-node dist/cli/index.js init --pretty
-node dist/cli/index.js status --pretty
-npm test
-```
-
-`init` writes `cml.config.json`, creates a local SQLite database under
-`./var`, creates a local `./vault` directory, and provisions a default
-operator, scope, root contract, default agent actor-type contract, and CLI
-role binding.
 
 ## Configuration
 
@@ -350,38 +391,12 @@ node dist/cli/index.js setup mcp --transport public --out ./mcp.public.json
 ## Related work
 
 - [cml-evidence-pack](https://github.com/sebb001/cml-evidence-pack) —
-  operational evidence: six governance cases with raw
-  records, from the lab where this layer was built and first used.
+  operational evidence: six governance cases with raw records, from the lab
+  where this layer was built and first used.
 - [epilab](https://github.com/sebb001/epilab) — the simulation laboratory
   testing the underlying governance primitives.
 - [Governing Epistemic Systems](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6417898)
   (Bohle, 2026, SSRN) — the companion preprint.
-
-## Lineage
-
-This work does not stand on its own feet. The shortest honest ledger of
-priors:
-
-- **Correspondence theory of truth** — a statement is true when it
-  describes the world, not when it agrees with other statements. The
-  promotion gate uses this theory as its master criterion.
-- **Karl Popper** — falsifiability as a working field, not a seminar
-  virtue. Claims in the lab carry their refutation conditions in the
-  record; supersession keeps the history when one fires.
-- **Elinor Ostrom** — shared context is a commons. Her design principles
-  for governing commons without a central owner — rules congruent with
-  local conditions, participation in rule-making, accountable monitoring,
-  graduated consequences — are the ancestors of CML’s contracts, actors,
-  and gates.
-- **The chariot dialogue (Milinda Pañha)** — “chariot” is a designation on
-  an assembly of parts, with no essence above them. Institutional cognition
-  is used here in exactly that spirit: a composite lens on organisations,
-  never a mind within them.
-- **Heidegger, over his objection** — equipment disappears while it works
-  and becomes visible only in breakdown. CML inverts the sequence
-  deliberately: the act of mediation is made inspectable before breakdown
-  does the revealing. (He would file correspondence itself as derivative of
-  disclosure; the ledger records the disagreement and keeps both.)
 
 ## License
 
