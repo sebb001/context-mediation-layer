@@ -1,18 +1,22 @@
 # Context Mediation Layer
 
-Decision governance and coordination infrastructure for human-AI workflows.
+Decision governance and correspondence infrastructure for human-AI environments.
 
 ## At a glance
 
 This repository is a working prototype and architecture demonstrator of a
-Context Mediation Layer (CML) for governing human-AI workflows. It makes
+Context Mediation Layer (CML) for governing human-AI environments. It makes
 intent, interpretation, authority, evidence, action, and provenance explicit
 so that AI-enabled work can be coordinated, audited, replayed, and scaled
 across multiple actors and tools.
 
 The core idea is simple: isolated AI workflows should not remain disconnected
 experiments. They need a shared governance layer that turns acceleration into
-durable coordination capability rather than faster ambiguity.
+durable shared state rather than faster ambiguity.
+
+To achieve this, CML operationalises a correspondence discipline. In philosophy, the correspondence theory of truth holds that a statement is true when it accurately describes the world, not when it merely agrees with other statements. Agentic environments invert the economics of that distinction: generated artefacts can agree with each other indefinitely, at almost no visible cost, while quietly detaching from the ground. While a plausibly coherent state becomes cheap to produce, the correspondence required to anchor it in reality has stayed expensive.
+
+CML addresses this gap. Nothing is promoted on plausibility or even coherence alone: declared state must pass a verification gate against actual state before it may act, every claim carries its falsification condition, and supersession keeps the record when one triggers.
 
 The implementation demonstrates how that layer can work locally, across
 humans, coding agents, hosted chat agents, tools, and knowledge stores,
@@ -59,7 +63,7 @@ Retrieval can surface relevant material, but it does not decide which source
 is authoritative, which claim is stale, which output is inference, or which
 actor is accountable for a change.
 
-CML treats this as a coordination problem.
+CML treats this as a correspondence problem: not an orchestration gap, but a detachment of declared from actual state.
 
 ## What the layer does
 
@@ -96,7 +100,7 @@ The core primitives are:
 The governing invariant is:
 
 > Stable actors own accountability. Sessions are execution context. Only
-> promoted outputs become durable coordination state.
+> promoted outputs become durable correspondence state.
 
 A chat transcript can be evidence. A terminal session can produce good work.
 A model can draft an interpretation. But none of those surfaces becomes
@@ -334,12 +338,22 @@ node dist/cli/index.js setup mcp --transport public --out ./mcp.public.json
 ## Related work
 
 - [cml-evidence-pack](https://github.com/sebb001/cml-evidence-pack) —
-  operational evidence: six governance cases with their coordination
+  operational evidence: six governance cases with raw
   records, from the lab where this layer was built and first used.
 - [epilab](https://github.com/sebb001/epilab) — the simulation laboratory
   testing the underlying governance primitives.
 - [Governing Epistemic Systems](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6417898)
   (Bohle, 2026, SSRN) — the companion preprint.
+
+## Lineage
+
+This work does not stand on its own feet. The shortest honest ledger of priors:
+
+- **Correspondence theory of truth** — a statement is true when it describes the world, not when it agrees with other statements. The promotion gate uses this theory as    its master criterion.
+- **Karl Popper** — falsifiability as a working field, not a seminar virtue. Claims in the lab carry their refutation conditions in the record; supersession keeps the history when one fires.
+- **Elinor Ostrom** — shared context is a commons. Her design principles for governing commons without a central owner — rules congruent with local conditions, participation in rule-making, accountable monitoring, graduated consequences — are the ancestors of CML’s contracts, actors, and gates.
+- **The chariot dialogue (Milinda Pañha)** — “chariot” is a designation on an assembly of parts, with no essence above them. Institutional cognition is used here in exactly that spirit: a composite lens on organisations, never a mind within them.
+- **Heidegger, over his objection** — equipment disappears while it works and becomes visible only in breakdown. CML inverts the sequence deliberately: the act of mediation is made inspectable before breakdown does the revealing. (He would file correspondence itself as derivative of disclosure; the ledger records the disagreement and keeps both.)
 
 ## License
 

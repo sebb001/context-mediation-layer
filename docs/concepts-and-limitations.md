@@ -58,7 +58,7 @@ explicitly agrees to gate the relevant work through it.
 The governing invariant:
 
 > Stable actors own accountability. Sessions are execution context. Only
-> promoted outputs become durable coordination state.
+> promoted outputs become durable, actionable state.
 
 A transcript can be evidence. A session can produce good work. A model can
 draft an interpretation. None of it becomes canonical merely by existing —
