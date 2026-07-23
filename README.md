@@ -16,7 +16,7 @@ durable shared state rather than faster ambiguity.
 
 To achieve this, CML operationalises a correspondence discipline. In philosophy, the correspondence theory of truth holds that a statement is true when it accurately describes the world, not when it merely agrees with other statements. Agentic environments invert the economics of that distinction: generated artefacts can agree with each other indefinitely, at almost no visible cost, while quietly detaching from the ground. While a plausibly coherent state becomes cheap to produce, the correspondence required to anchor it in reality has stayed expensive.
 
-CML addresses this gap. Nothing is promoted on plausibility or even coherence alone: declared state must pass a verification gate against actual state before it may act, every claim carries its falsification condition, and supersession keeps the record when one triggers.
+CML addresses this gap. Nothing is promoted on plausibility or even coherence alone: declared state must be checked against actual state before an output may be acted upon, every claim carries its falsification condition, and supersession keeps the record when one triggers.
 
 The implementation demonstrates how that layer can work locally, across
 humans, coding agents, hosted chat agents, tools, and knowledge stores,
@@ -81,7 +81,7 @@ It is deliberately not a personality layer, memory feature, or agent
 framework in the usual sense. It sits underneath those surfaces when several
 of them need to work together.
 
-CML is the coordination vocabulary. This repository is a runtime that makes
+CML is the correspondence vocabulary. This repository is a runtime that makes
 the vocabulary operational.
 
 The core primitives are:
@@ -100,7 +100,7 @@ The core primitives are:
 The governing invariant is:
 
 > Stable actors own accountability. Sessions are execution context. Only
-> promoted outputs become durable correspondence state.
+> promoted outputs become durable, actionable state.
 
 A chat transcript can be evidence. A terminal session can produce good work.
 A model can draft an interpretation. But none of those surfaces becomes
