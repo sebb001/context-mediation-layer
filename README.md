@@ -10,9 +10,7 @@ intent, interpretation, authority, evidence, action, and provenance explicit
 so that AI-enabled work can be coordinated, audited, replayed, and scaled
 across multiple actors and tools.
 
-The core idea is simple: isolated AI workflows should not remain disconnected
-experiments. They need a shared governance layer that turns acceleration into
-durable shared state rather than faster ambiguity.
+The core idea is simple: isolated AI workflows should not remain a landscape of little kingdoms, each claiming absolute coherence but unable to meaningfully extend that claim beyond its borders. They need a shared governance layer that turns acceleration into durable shared state rather than faster ambiguity.
 
 The implementation demonstrates how that layer can work locally, across
 humans, coding agents, hosted chat agents, tools, and knowledge stores,
