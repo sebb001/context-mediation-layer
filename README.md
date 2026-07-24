@@ -40,7 +40,7 @@ directory, and provisions a default operator, scope, root contract, agent
 actor-type contract, and CLI role binding. Details in
 [Setup and configuration](docs/setup-and-configuration.md).
 
-## Architecture at a glance
+## Architecture spotlight
 
 The implementation keeps three layers separate:
 
